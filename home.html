@@ -71,3 +71,100 @@
   </header>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- home.html -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="Favicon.png">
+
+<title>Createc AI</title>
+
+<style>
+  :root{
+    --bg:#ffffff; --fg:#111827; --muted:#6b7280; --accent:#0ea5a4;
+    --card:#f8fafc;
+  }
+  [data-theme="dark"]{ --bg:#0b1220; --fg:#e6eef6; --muted:#9aa6b2; --accent:#39c2c0; --card:#071224; }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+  body{background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;line-height:1.4}
+  .wrap{max-width:1100px;margin:28px auto;padding:20px}
+  header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:18px}
+  .brand{display:flex;gap:12px;align-items:center}
+
+  /* LOGO kutusu */
+  .logo-box{
+    width:44px;
+    height:44px;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  nav{display:flex;gap:8px}
+  button, .btn{background:var(--accent);border:none;color:white;padding:8px 12px;border-radius:8px;cursor:pointer}
+  button.ghost{background:transparent;border:1px solid rgba(0,0,0,0.06);color:var(--fg)}
+  .controls{display:flex;gap:8px;align-items:center}
+  .main{display:grid;grid-template-columns:300px 1fr;gap:18px}
+  .card{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(7,12,20,0.06)}
+  .sidebar h3{margin:0 0 8px 0}
+  .nav-item{display:block;padding:8px;border-radius:8px;color:var(--fg);text-decoration:none;margin-bottom:6px}
+  .nav-item.active{background:rgba(0,0,0,0.04)}
+  .panel h2{margin:0 0 10px}
+  .muted{color:var(--muted);font-size:14px}
+  .field{margin-bottom:10px}
+  label{display:block;font-weight:600;font-size:13px;margin-bottom:6px}
+  input[type="text"], textarea, select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);background:transparent;color:var(--fg)}
+  textarea{min-height:120px;resize:vertical}
+  .upload{border:1px dashed rgba(0,0,0,0.08);padding:12px;border-radius:8px;text-align:center}
+  .results{margin-top:12px}
+  .result-item{padding:10px;border-radius:8px;background:rgba(0,0,0,0.02);margin-bottom:8px}
+  footer{margin-top:20px;text-align:center;color:var(--muted);font-size:13px}
+  @media (max-width:880px){
+    .main{grid-template-columns:1fr; }
+    header{flex-direction:column;align-items:flex-start;gap:10px}
+  }
+</style>
+</head>
+<body data-theme="light">
+<div class="wrap" role="application" aria-label="Createc AI Kabuk">
+
+  <header>
+    <div class="brand">
+
+      <!-- ▼▼▼ LOGO KUTUSU (Favicon.png) ▼▼▼ -->
+      <div class="logo-box">
+        <img src="Favicon.png" alt="Favicon" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+
+      <!-- ▼▼▼ Createc AI yazısının yerinde artık logo.png ▼▼▼ -->
+      <div>
+        <img src="Logo.png" alt="Logo" style="height:26px;margin-bottom:2px;">
+        <div class="muted" style="font-size:13px">Reklam & Matbaa akıllı asistanı</div>
+      </div>
+
+    </div>
+  </header>
+
