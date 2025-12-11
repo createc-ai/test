@@ -75,6 +75,219 @@
         <img src="Logo.png" alt="Logo" style="height:18px;margin-bottom:2px;">
         <div class="muted" style="font-size:13px">Reklam & Matbaa akıllı asistanı</div>
       </div>
-
+    </div>
+    <div class="controls">
+      <div class="muted" id="userStatus">Bağlı değil</div>
+      <button id="themeToggle" class="ghost" aria-pressed="false">Koyu</button>
+      <button id="loginBtn" class="btn">Giriş</button>
     </div>
   </header>
+
+  <main class="main" id="mainApp">
+    <aside class="sidebar card" aria-label="Kenar menü">
+      <h3>Menü</h3>
+      <a href="#" class="nav-item active" data-section="home">Ana Sayfa</a>
+      <a href="#" class="nav-item" data-section="new">Yeni İş Oluştur</a>
+      <a href="#" class="nav-item" data-section="jobs">Projeler</a>
+      <a href="#" class="nav-item" data-section="settings">Ayarlar</a>
+      <div style="height:12px"></div>
+      <div class="muted">Createc AI; her şeyi sizin için işler ve tüm süreci arka planda yürütür.</div>
+    </aside>
+
+    <section class="panel">
+      <div id="home" class="card" role="region" aria-labelledby="homeTitle">
+        <h2 id="homeTitle">Hoşgeldin</h2>
+        <p class="muted">''Burada her şey senin için kolaylaşır.''</p>
+
+        <div class="field">
+          <label for="prompt">Kısa açıklama / istek</label>
+          <input id="prompt" type="text" placeholder="Örn: 50x70 cm, afiş, CMYK, bleeds 3mm, slogan: 'Büyük İndirim'">
+        </div>
+
+        <div style="display:flex;gap:8px;align-items:center">
+          <div style="flex:1">
+            <button id="generateBtn" class="btn">AI ile Üret (mock)</button>
+            <button id="uploadBtn" class="ghost" style="margin-left:6px">Dosya Yükle</button>
+          </div>
+          <div class="muted" style="font-size:13px">Çalışma modu: <strong id="mode">Demo</strong></div>
+        </div>
+
+        <div class="results" id="results" aria-live="polite"></div>
+      </div>
+
+      <div id="new" class="card" style="margin-top:12px;display:none">
+        <h2>Yeni İş Oluştur</h2>
+        <div class="field">
+          <label for="jobTitle">İş Başlığı</label>
+          <input id="jobTitle" type="text" placeholder="Örn: Mağaza Afişi - Yaz Kampanyası">
+        </div>
+        <div class="field">
+          <label for="format">Format</label>
+          <select id="format">
+            <option value="50x70">50 x 70 cm</option>
+            <option value="A3">A3</option>
+            <option value="social">Instagram Kare</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="notes">Açıklama / Talimatlar</label>
+          <textarea id="notes" placeholder="Matbaa notları, CMYK, bleed, font tercihi..."></textarea>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button id="createJob" class="btn">Oluştur</button>
+          <button id="cancelJob" class="ghost">İptal</button>
+        </div>
+      </div>
+
+      <div id="jobs" class="card" style="margin-top:12px;display:none">
+        <h2>Projeler</h2>
+        <div id="jobsList" class="muted">Henüz proje yok.</div>
+      </div>
+
+      <div id="settings" class="card" style="margin-top:12px;display:none">
+        <h2>Ayarlar</h2>
+        <div class="field">
+          <label for="apiEndpoint">AI API Endpoint (opsiyonel)</label>
+          <input id="apiEndpoint" type="text" placeholder="https://api.sunucu.com/generate">
+        </div>
+        <div class="field">
+          <label for="themePref">Tema tercih</label>
+          <select id="themePref">
+            <option value="auto">Otomatik</option>
+            <option value="light">Açık</option>
+            <option value="dark">Koyu</option>
+          </select>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer>
+    Createc AI hata yapabilir. Önemli bilgileri kontrol edin. 
+  </footer>
+</div>
+
+<!-- Basit modal / login (mock) -->
+<div id="loginModal" role="dialog" aria-modal="true" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.6);align-items:center;justify-content:center">
+  <div style="background:var(--card);padding:18px;border-radius:12px;max-width:420px;margin:12px">
+    <h3 style="margin-top:0">Giriş (demo)</h3>
+    <div class="field"><label for="uName">Kullanıcı adı</label><input id="uName" type="text"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button id="loginCancel" class="ghost">İptal</button>
+      <button id="loginOk" class="btn">Giriş Yap</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Basit UI kontrolü
+  const themeToggle = document.getElementById('themeToggle');
+  const body = document.body;
+  const loginBtn = document.getElementById('loginBtn');
+  const loginModal = document.getElementById('loginModal');
+  const loginOk = document.getElementById('loginOk');
+  const loginCancel = document.getElementById('loginCancel');
+  const userStatus = document.getElementById('userStatus');
+  const generateBtn = document.getElementById('generateBtn');
+  const results = document.getElementById('results');
+  const navItems = document.querySelectorAll('.nav-item');
+  const sections = { home: document.getElementById('home'), new: document.getElementById('new'), jobs: document.getElementById('jobs'), settings: document.getElementById('settings')};
+  const apiEndpointInput = document.getElementById('apiEndpoint');
+
+  // Tema toggle
+  function setTheme(t){ body.setAttribute('data-theme', t); themeToggle.innerText = t === 'dark' ? 'Açık' : 'Koyu'; themeToggle.setAttribute('aria-pressed', String(t==='dark')); }
+  themeToggle.addEventListener('click', ()=> setTheme(body.getAttribute('data-theme')==='dark'?'light':'dark'));
+  // default
+  setTheme('light');
+
+  // Nav
+  navItems.forEach(a=>{
+    a.addEventListener('click', e=>{
+      e.preventDefault();
+      navItems.forEach(n=>n.classList.remove('active'));
+      a.classList.add('active');
+      const sec = a.getAttribute('data-section');
+      Object.keys(sections).forEach(k=> sections[k].style.display = (k===sec?'block':'none'));
+    });
+  });
+
+  // Login modal
+  loginBtn.addEventListener('click', ()=> loginModal.style.display = 'flex');
+  loginCancel.addEventListener('click', ()=> loginModal.style.display = 'none');
+  loginOk.addEventListener('click', ()=> {
+    loginModal.style.display = 'none';
+    userStatus.innerText = document.getElementById('uName').value || 'Kullanıcı';
+    loginBtn.innerText = 'Çıkış';
+    loginBtn.addEventListener('click', ()=> { userStatus.innerText = 'Bağlı değil'; loginBtn.innerText = 'Giriş'; });
+  });
+
+  // Basit job list
+  const jobs = [];
+  document.getElementById('createJob').addEventListener('click', ()=>{
+    const t = document.getElementById('jobTitle').value || 'Yeni İş';
+    const f = document.getElementById('format').value;
+    const notes = document.getElementById('notes').value;
+    const id = 'job-'+Date.now();
+    jobs.unshift({id,title:t,format:f,notes,created:new Date().toLocaleString()});
+    refreshJobs();
+    alert('İş oluşturuldu: ' + t);
+  });
+  function refreshJobs(){
+    const el = document.getElementById('jobsList');
+    if(!jobs.length){ el.innerHTML = '<div class="muted">Henüz proje yok.</div>'; return; }
+    el.innerHTML = jobs.map(j=>`<div class="result-item"><strong>${j.title}</strong><div class="muted">${j.format} • ${j.created}</div><div style="margin-top:6px">${escapeHtml(j.notes || '')}</div></div>`).join('');
+  }
+
+  // Mock AI generate
+  generateBtn.addEventListener('click', async ()=>{
+    const prompt = document.getElementById('prompt').value || 'Örnek afiş isteği';
+    addResult('İstek gönderildi: ' + prompt);
+    // Eğer gerçek API endpoint girilmişse onu kullan
+    const ep = apiEndpointInput.value.trim();
+    try {
+      let result;
+      if(ep){
+        // Gerçek endpoint çağrısı: POST { prompt }
+        const resp = await fetch(ep, {
+          method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({prompt})
+        });
+        result = await resp.text();
+      } else {
+        // mock üretim (demo)
+        await delay(700);
+        result = `Mock çıktı — önerilen ayarlar: 50x70 cm, CMYK, bleed 3mm. Slogan önerisi: "Büyük İndirim!" (prompt: ${prompt})`;
+      }
+      addResult(result);
+    } catch(err){
+      addResult('Hata: ' + (err.message || String(err)));
+    }
+  });
+
+  function addResult(text){
+    const d = document.createElement('div');
+    d.className = 'result-item';
+    d.textContent = text;
+    results.prepend(d);
+  }
+  function delay(ms){ return new Promise(r=>setTimeout(r,ms)); }
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
+
+  // Placeholder API connector object (kolayca backend'e bağlanmak için)
+  window.api = {
+    async generate(prompt){
+      const ep = apiEndpointInput.value.trim();
+      if(!ep) return {ok:false, text:'API endpoint ayarlı değil (demo).'};
+      const res = await fetch(ep,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
+      return res.ok?{ok:true,text:await res.text()}:{ok:false,text:await res.text()};
+    }
+  };
+
+  // Accessibility: keyboard shortcut to toggle theme (t)
+  document.addEventListener('keydown', (e)=>{ if(e.key==='t') setTheme(body.getAttribute('data-theme')==='dark'?'light':'dark') });
+
+})();
+</script>
+</body>
+</html>
