@@ -1,10 +1,359 @@
-<div class="header-right">
-    <!-- USER MENU buraya eklendi -->
-    <div class="user-menu" style="display:flex; align-items:center; gap:10px;">
-        <img src="User.png" alt="User Avatar" style="width:32px; height:32px; border-radius:50%;">
-        <div style="display:flex; flex-direction:column; line-height:1;">
-            <span style="font-weight:600;">Kullanıcı Adı</span>
-            <span style="font-size:12px; color:#888;">Pro</span>
-        </div>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<link rel="icon" type="image/png" href="Favicon.png">
+<title>Createc AI</title>
+
+<style>
+  :root{
+    --bg:#ffffff; --fg:#111827; --muted:#6b7280; --accent:#0ea5a4;
+    --card:#f8fafc;
+  }
+  [data-theme="dark"]{
+    --bg:#0b1220; --fg:#e6eef6; --muted:#9aa6b2; --accent:#39c2c0; --card:#071224;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+  body{background:var(--bg);color:var(--fg);line-height:1.4;-webkit-font-smoothing:antialiased;}
+
+  .wrap{max-width:1100px;margin:28px auto;padding:20px}
+
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+  .brand{display:flex;align-items:center;gap:12px}
+
+  /* Logo */
+  .logo-box{
+    width:44px;height:44px;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;
+  }
+
+  nav{display:flex;gap:8px}
+  button,.btn{background:var(--accent);border:none;color:white;padding:8px 12px;border-radius:8px;cursor:pointer}
+  button.ghost{background:transparent;border:1px solid rgba(0,0,0,0.06);color:var(--fg)}
+
+  .controls{display:flex;gap:8px;align-items:center}
+
+  .main{display:grid;grid-template-columns:300px 1fr;gap:18px}
+  .card{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(7,12,20,0.06)}
+  .sidebar h3{margin:0 0 8px}
+  .nav-item{display:block;padding:8px;border-radius:8px;color:var(--fg);text-decoration:none;margin-bottom:6px}
+  .nav-item.active{background:rgba(0,0,0,0.04)}
+
+  .panel h2{margin:0 0 10px}
+
+  .muted{color:var(--muted);font-size:14px}
+
+  .field{margin-bottom:10px}
+  label{display:block;font-weight:600;font-size:13px;margin-bottom:6px}
+  input[type="text"],textarea,select{
+    width:100%;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);background:transparent;color:var(--fg)
+  }
+  textarea{min-height:120px;resize:vertical}
+
+  .upload{border:1px dashed rgba(0,0,0,0.08);padding:12px;border-radius:8px;text-align:center}
+
+  .results{margin-top:12px}
+  .result-item{padding:10px;border-radius:8px;background:rgba(0,0,0,0.03);margin-bottom:8px}
+
+  footer{text-align:center;margin-top:20px;color:var(--muted);font-size:13px}
+
+  @media(max-width:880px){
+    .main{grid-template-columns:1fr}
+    header{flex-direction:column;align-items:flex-start;gap:10px}
+  }
+
+  /* ———————————————— REKLAM ALANI ———————————————— */
+  #adBox{
+    position:fixed;
+    bottom:14px;
+    right:14px;
+    width:180px;
+    height:320px;
+    background:var(--card);
+    border-radius:14px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.25);
+    padding:10px;
+    z-index:999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  #adBox .ad-inner{
+    width:100%;height:100%;border-radius:10px;overflow:hidden;position:relative;
+  }
+
+  .ad-label{
+    position:absolute;top:6px;left:6px;
+    background:var(--accent);color:white;
+    padding:2px 6px;font-size:11px;border-radius:6px;
+    z-index:3;
+  }
+
+  .ad-slide{
+    width:100%;height:100%;position:absolute;inset:0;opacity:0;transition:opacity .6s ease;
+  }
+  .ad-slide.active{opacity:1}
+
+  .ad-slide img,.ad-slide video{
+    width:100%;height:100%;object-fit:cover;
+  }
+
+  @media(max-width:880px){
+    #adBox{width:130px;height:220px;right:10px;bottom:10px}
+  }
+</style>
+</head>
+
+<body data-theme="light">
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand">
+      <div class="logo-box">
+        <img src="Favicon.png" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+
+      <div>
+        <img src="Logo.png" style="height:18px;margin-bottom:2px;">
+        <div class="muted" style="font-size:13px">Reklam & Matbaa Akıllı Asistanı</div>
+      </div>
     </div>
+
+    <div class="controls">
+      <div class="muted" id="userStatus">Bağlı değil</div>
+      <button id="themeToggle" class="ghost">Koyu</button>
+      <button id="loginBtn" class="btn">Giriş</button>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main" id="mainApp">
+    <aside class="sidebar card">
+      <h3>Menü</h3>
+      <a href="#" class="nav-item active" data-section="home">Ana Sayfa</a>
+      <a href="#" class="nav-item" data-section="new">Yeni İş Oluştur</a>
+      <a href="#" class="nav-item" data-section="jobs">Projeler</a>
+      <a href="#" class="nav-item" data-section="settings">Ayarlar</a>
+      <div style="height:12px"></div>
+      <div class="muted">Özgür, Hızlı ve Net Çözüm.</div>
+    </aside>
+
+    <section class="panel">
+
+      <!-- HOME -->
+      <div id="home" class="card">
+        <h2>Hoşgeldin</h2>
+        <p class="muted">"Burada her şey senin için kolaylaşır."</p>
+
+        <div class="field">
+          <label>Kısa açıklama / istek</label>
+          <input id="prompt" type="text" placeholder="Örn: 50x70 afiş, CMYK, slogan...">
+        </div>
+
+        <button id="generateBtn" class="btn">AI ile Üret</button>
+
+        <div class="results" id="results"></div>
+      </div>
+
+      <!-- NEW JOB -->
+      <div id="new" class="card" style="display:none;margin-top:12px">
+        <h2>Yeni İş Oluştur</h2>
+
+        <div class="field">
+          <label>İş Başlığı</label>
+          <input id="jobTitle" type="text">
+        </div>
+
+        <div class="field">
+          <label>Format</label>
+          <select id="format">
+            <option value="50x70">50 x 70 cm</option>
+            <option value="A3">A3</option>
+            <option value="social">Instagram Kare</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Açıklama</label>
+          <textarea id="notes"></textarea>
+        </div>
+
+        <div style="display:flex;gap:8px">
+          <button id="createJob" class="btn">Oluştur</button>
+          <button id="cancelJob" class="ghost">İptal</button>
+        </div>
+      </div>
+
+      <!-- JOB LIST -->
+      <div id="jobs" class="card" style="display:none;margin-top:12px">
+        <h2>Projeler</h2>
+        <div id="jobsList" class="muted">Henüz proje yok.</div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div id="settings" class="card" style="display:none;margin-top:12px">
+        <h2>Ayarlar</h2>
+
+        <div class="field">
+          <label>API Endpoint</label>
+          <input id="apiEndpoint" type="text" placeholder="https://...">
+        </div>
+
+        <div class="field">
+          <label>Tema</label>
+          <select id="themePref">
+            <option value="auto">Otomatik</option>
+            <option value="light">Açık</option>
+            <option value="dark">Koyu</option>
+          </select>
+        </div>
+
+      </div>
+
+    </section>
+  </main>
+
+  <footer>
+    Createc AI hata yapabilir. Önemli bilgileri kontrol edin.
+  </footer>
 </div>
+
+<!-- LOGIN MODAL -->
+<div id="loginModal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.6);align-items:center;justify-content:center">
+  <div style="background:var(--card);padding:18px;border-radius:12px;max-width:420px">
+    <h3 style="margin-top:0">Giriş</h3>
+    <div class="field">
+      <label>Kullanıcı adı</label>
+      <input id="uName" type="text">
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button id="loginCancel" class="ghost">İptal</button>
+      <button id="loginOk" class="btn">Giriş Yap</button>
+    </div>
+  </div>
+</div>
+
+<!-- ———————————————— REKLAM SLIDER ———————————————— -->
+<div id="adBox">
+  <div class="ad-inner">
+    <span class="ad-label">Reklam</span>
+
+    <!-- 1: Görsel -->
+    <a href="https://site1.com" target="_blank" class="ad-slide active">
+      <img src="Ad1.jpg">
+    </a>
+
+    <!-- 2: Video -->
+    <a href="https://site2.com" target="_blank" class="ad-slide">
+      <video src="Ad2.mp4" autoplay muted loop></video>
+    </a>
+
+    <!-- 3: Görsel -->
+    <a href="https://site3.com" target="_blank" class="ad-slide">
+      <img src="Ad3.jpg">
+    </a>
+
+  </div>
+</div>
+
+<script>
+(function(){
+
+  const body = document.body;
+  const themeToggle = document.getElementById('themeToggle');
+
+  themeToggle.addEventListener('click', ()=>{
+    const now = body.getAttribute('data-theme')==='dark'?'light':'dark';
+    body.setAttribute('data-theme', now);
+    themeToggle.innerText = now==='dark'?'Açık':'Koyu';
+  });
+
+  /* NAV */
+  const navItems = document.querySelectorAll('.nav-item');
+  const sections = {
+    home: document.getElementById('home'),
+    new: document.getElementById('new'),
+    jobs: document.getElementById('jobs'),
+    settings: document.getElementById('settings')
+  };
+
+  navItems.forEach(a=>{
+    a.addEventListener('click', e=>{
+      e.preventDefault();
+      navItems.forEach(n=>n.classList.remove('active'));
+      a.classList.add('active');
+
+      const sec = a.dataset.section;
+      Object.keys(sections).forEach(k=>{
+        sections[k].style.display = (k===sec?'block':'none');
+      });
+    });
+  });
+
+  /* LOGIN */
+  const loginBtn = document.getElementById('loginBtn');
+  const loginModal = document.getElementById('loginModal');
+  const loginOk = document.getElementById('loginOk');
+  const loginCancel = document.getElementById('loginCancel');
+  const userStatus = document.getElementById('userStatus');
+
+  loginBtn.addEventListener('click', ()=> loginModal.style.display='flex');
+  loginCancel.addEventListener('click', ()=> loginModal.style.display='none');
+  loginOk.addEventListener('click', ()=>{
+    userStatus.innerText = document.getElementById('uName').value || 'Kullanıcı';
+    loginModal.style.display='none';
+    loginBtn.innerText='Çıkış';
+  });
+
+  /* RESULTS */
+  const results = document.getElementById('results');
+  document.getElementById('generateBtn').addEventListener('click', ()=>{
+    const t = document.getElementById('prompt').value || 'Örnek istek';
+    const d = document.createElement('div');
+    d.className='result-item';
+    d.textContent='Mock üretim: '+t;
+    results.prepend(d);
+  });
+
+  /* JOBS */
+  const jobs=[];
+  document.getElementById('createJob').addEventListener('click', ()=>{
+    const t = document.getElementById('jobTitle').value;
+    const f = document.getElementById('format').value;
+    const n = document.getElementById('notes').value;
+
+    jobs.unshift({t,f,n,ts:new Date().toLocaleString()});
+    refreshJobs();
+    alert("İş oluşturuldu.");
+  });
+
+  function refreshJobs(){
+    const box = document.getElementById('jobsList');
+    if(!jobs.length){
+      box.innerHTML="<div class='muted'>Henüz proje yok.</div>";
+      return;
+    }
+    box.innerHTML = jobs.map(j=>
+      `<div class="result-item"><strong>${j.t}</strong><div class="muted">${j.f} • ${j.ts}</div><div>${j.n}</div></div>`
+    ).join("");
+  }
+
+  /* REKLAM SLIDER */
+  const slides = document.querySelectorAll('.ad-slide');
+  let idx = 0;
+
+  setInterval(()=>{
+    slides[idx].classList.remove('active');
+    idx = (idx+1) % slides.length;
+    slides[idx].classList.add('active');
+  }, 4500);
+
+})();
+</script>
+</body>
+</html>
