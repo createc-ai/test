@@ -3,43 +3,227 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Derin AI</title>
+<title>Createc AI</title>
 <style>
- body { font-family: Arial, sans-serif; background: #f7f7f7; margin: 0; }
- header { background: #ffffff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
- #userBox { font-weight: bold; }
- .container { max-width: 1000px; margin: 20px auto; background: #fff; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-radius: 10px; }
- h1 { margin-top: 0; }
- #uploadSection { margin-bottom: 20px; padding: 15px; border: 1px dashed #aaa; text-align: center; }
- textarea { width: 100%; height: 180px; padding: 10px; border-radius: 8px; border: 1px solid #ccc; resize: vertical; }
- button { padding: 10px 15px; background: #4B75FF; color: white; border: none; border-radius: 8px; cursor: pointer; }
- button:hover { opacity: 0.9; }
- #result { margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 8px; min-height: 120px; white-space: pre-wrap; }
- #ads { width: 100%; margin: 40px auto 0 auto; text-align: center; padding: 20px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 10px; font-size: 18px; font-weight: bold; }
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f6f6f6;
+        color: #333;
+    }
+
+    /* ÜST BAR */
+    .top-bar {
+        width: 100%;
+        height: 60px;
+        background: white;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        position: fixed;
+        top: 0;
+        z-index: 20;
+    }
+
+    .top-left {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .top-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        font-size: 14px;
+    }
+
+    .credit {
+        background: #ffe0b2;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+    /* ANA İÇERİK */
+    .container {
+        display: flex;
+        margin-top: 60px;
+    }
+
+    /* SOL MENÜ */
+    .sidebar {
+        width: 260px;
+        background: white;
+        height: calc(100vh - 60px);
+        border-right: 1px solid #ddd;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .sidebar button {
+        width: 100%;
+        background: #4CAF50;
+        border: none;
+        padding: 14px;
+        color: white;
+        font-size: 16px;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-bottom: 25px;
+    }
+
+    .sidebar h3 {
+        font-size: 17px;
+        margin-bottom: 10px;
+    }
+
+    .sidebar select, .sidebar input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    .sidebar .upload-box {
+        margin-top: 15px;
+    }
+
+    /* ANA CHAT PANELİ */
+    .main {
+        flex: 1;
+        padding: 30px;
+        position: relative;
+    }
+
+    .main-title {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        color: #333;
+    }
+
+    .chat-box {
+        width: 100%;
+        height: 70vh;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+    /* MESAJ GİRİŞ */
+    .chat-input-box {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+    }
+
+    .chat-input-box textarea {
+        flex: 1;
+        height: 75px;
+        padding: 15px;
+        font-size: 15px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        resize: none;
+    }
+
+    .chat-input-box button {
+        width: 140px;
+        background: #2196F3;
+        border: none;
+        color: white;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    /* REKLAM ALANI */
+    .ad-box {
+        position: fixed;
+        right: 20px;
+        top: 180px;
+        width: 260px;
+        background: #fff3cd;
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid #e6c789;
+        font-size: 15px;
+        z-index: 50;
+        text-align: center;
+        font-weight: bold;
+    }
 </style>
 </head>
+
 <body>
-<header>
-<div id="logo">DERIN AI</div>
-<div id="userBox">Kullanıcı: Free</div>
-</header>
+
+<!-- ÜST BAR -->
+<div class="top-bar">
+    <div class="top-left">Createc AI</div>
+    <div class="top-right">
+        <div class="credit">Kredi: 120</div>
+        <div class="username">Kullanıcı: Guest</div>
+    </div>
+</div>
+
 <div class="container">
-<h1>Hoşgeldiniz</h1>
-<div id="uploadSection">
- Dosya yükle:<br><br>
- <input type="file" id="fileInput" />
+
+    <!-- SOL MENÜ -->
+    <div class="sidebar">
+
+        <button>Yeni İş Oluştur</button>
+
+        <h3>Dil Seçimi</h3>
+        <select>
+            <option>Türkçe</option>
+            <option>English</option>
+            <option>Español</option>
+            <option>Deutsch</option>
+            <option>Русский</option>
+            <option>中文</option>
+        </select>
+
+        <h3>Dosya Yükle</h3>
+        <div class="upload-box">
+            <input type="file" />
+        </div>
+
+        <h3>Ayarlar</h3>
+        <select>
+            <option>Güvenlik</option>
+            <option>Bildirimler</option>
+            <option>Hesap</option>
+        </select>
+
+    </div>
+
+    <!-- ANA CHAT PANELİ -->
+    <div class="main">
+        <div class="main-title">Hoşgeldin</div>
+
+        <div class="chat-box" id="chatBox">
+            <!-- mesajlar burada -->
+        </div>
+
+        <div class="chat-input-box">
+            <textarea placeholder="Mesajınızı yazın..."></textarea>
+            <button>Gönder</button>
+        </div>
+    </div>
+
 </div>
-<textarea id="inputText" placeholder="Metni buraya yazın..."></textarea>
-<br><br>
-<button onclick="generate()">Yeni İş Oluştur</button>
-<div id="result"></div>
+
+<!-- REKLAM -->
+<div class="ad-box">
+    ⭐ Ücretsiz kullanıcı — Daha fazla özellik için PLUS’a geç!
 </div>
-<div id="ads">Reklam Alanı – Sizi biraz rahatsız etmek için buradayım 😊</div>
-<script>
-function generate() {
- let text = document.getElementById("inputText").value.trim();
- document.getElementById("result").innerText = text ? ("İşlendi: " + text) : "Metin girilmedi";
-}
-</script>
+
 </body>
 </html>
