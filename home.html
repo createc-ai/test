@@ -1,112 +1,138 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Createc AI</title>
 
-  <!-- FAVICON -->
-  <link rel="icon" type="image/png" href="favicon.png">
+  <!-- favicon (yoksa sorun çıkarmaz) -->
+  <link rel="icon" href="favicon.png" />
 
   <!-- FONT -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
     *{box-sizing:border-box;font-family:'Inter',sans-serif}
-    body{margin:0;background:#fff;color:#111}
+    body{margin:0;background:#f5f7fa;color:#111;display:flex;flex-direction:column;height:100vh}
 
     /* HEADER */
-    .topbar{
-      display:flex;align-items:center;justify-content:space-between;
-      padding:14px 22px;border-bottom:2px solid #19a7d6
+    header{
+      height:64px;background:#ffffff;border-bottom:1px solid #e5e7eb;
+      display:flex;align-items:center;justify-content:space-between;padding:0 20px
     }
-    .brand{display:flex;align-items:center;gap:12px}
-    .brand img{width:48px;height:48px}
-    .brand-text h1{margin:0;font-size:26px;font-weight:700}
-    .brand-text span{font-size:13px;color:#555}
-    .login{
-      background:#19a7d6;color:#fff;border:none;
-      padding:10px 22px;border-radius:24px;font-weight:600;cursor:pointer
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand img{width:36px;height:36px}
+    .brand span{font-weight:700;font-size:18px}
+    .login{background:#2563eb;color:#fff;border:none;padding:8px 18px;border-radius:20px;cursor:pointer}
+
+    /* MAIN */
+    main{flex:1;display:flex;gap:16px;padding:16px}
+
+    /* LEFT PANEL */
+    .tools{
+      width:220px;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:14px
+    }
+    .tools h3{margin:0 0 10px;font-size:14px;color:#555}
+    .tool-btn{
+      width:100%;padding:10px;margin-bottom:8px;border-radius:8px;
+      border:1px solid #e5e7eb;background:#f9fafb;cursor:pointer;text-align:left
     }
 
-    /* MAIN FRAME */
-    .frame{padding:14px}
-    .canvas{
-      border:3px solid #19a7d6;
-      height:68vh;position:relative;background:#fff
+    /* CENTER AREA */
+    .workspace{
+      flex:1;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;
+      display:flex;flex-direction:column;overflow:hidden
     }
-    .close{
-      position:absolute;top:6px;right:10px;
-      font-size:18px;font-weight:700;cursor:pointer
+    .ad-area{
+      height:140px;border-bottom:1px dashed #cbd5e1;
+      display:flex;align-items:center;justify-content:center;font-size:14px;color:#555
+    }
+    .work-area{
+      flex:1;padding:14px
+    }
+    .work-area textarea{
+      width:100%;height:100%;resize:none;border:1px solid #e5e7eb;border-radius:8px;padding:12px
+    }
+
+    /* RIGHT PANEL */
+    .plans{
+      width:220px;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:14px
+    }
+    .plan{border:1px solid #e5e7eb;border-radius:10px;padding:12px;margin-bottom:10px}
+    .plan.free{background:#f9fafb}
+    .plan.paid{background:#eef2ff;border-color:#2563eb}
+    .plan button{
+      margin-top:8px;width:100%;padding:8px;border:none;border-radius:8px;cursor:pointer
     }
 
     /* FOOTER */
-    .footer{
-      display:flex;align-items:center;gap:10px;
-      border-top:2px solid #19a7d6;padding:10px
+    footer{
+      height:64px;background:#ffffff;border-top:1px solid #e5e7eb;
+      display:flex;align-items:center;gap:10px;padding:0 16px
     }
-    .prompt{
-      flex:1;border:1px solid #ccc;border-radius:10px;
-      padding:12px;font-size:14px
+    footer input{
+      flex:1;padding:10px;border-radius:8px;border:1px solid #e5e7eb
     }
-    .btn{
-      display:flex;align-items:center;gap:6px;
-      border:none;padding:10px 14px;border-radius:10px;
-      cursor:pointer;font-weight:600;font-size:13px
+    footer button{
+      padding:10px 14px;border-radius:8px;border:none;cursor:pointer
     }
-    .upload{background:#6b7280;color:#fff}
-    .create{background:#19a7d6;color:#fff}
-    .save{background:#9ca3af;color:#fff}
-    .download{background:#6b7280;color:#fff}
+    .primary{background:#2563eb;color:#fff}
+    .secondary{background:#e5e7eb}
 
-    .note{
-      text-align:center;font-size:12px;color:#777;margin-top:6px
+    @media(max-width:900px){
+      main{flex-direction:column}
+      .tools,.plans{width:100%}
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <div class="topbar">
-    <div class="brand">
-      <img src="logo.png" alt="Createc AI Logo">
-      <div class="brand-text">
-        <h1>Createc AI</h1>
-        <span>Reklam & Matbaa Tasarım Asistanı</span>
-      </div>
-    </div>
-    <button class="login" onclick="login()">GİRİŞ</button>
+<header>
+  <div class="brand">
+    <img src="logo.png" alt="logo">
+    <span>Createc AI</span>
+  </div>
+  <button class="login" onclick="alert('Giriş yakında')">Giriş</button>
+</header>
+
+<main>
+  <!-- LEFT -->
+  <div class="tools">
+    <h3>Araçlar</h3>
+    <button class="tool-btn">Afiş Tasarımı</button>
+    <button class="tool-btn">Sosyal Medya</button>
+    <button class="tool-btn">Kartvizit</button>
+    <button class="tool-btn">Banner</button>
   </div>
 
-  <!-- MAIN -->
-  <div class="frame">
-
-    <!-- ORTA ALAN / REKLAM + ÇALIŞMA -->
-    <div class="canvas" id="canvas">
-      <div class="close" onclick="closeCanvas()">X</div>
-      <!-- Buraya reklam / tasarım içeriği gelecek -->
+  <!-- CENTER -->
+  <div class="workspace">
+    <div class="ad-area">Reklam Alanı (tek alan – planlara göre bölünecek)</div>
+    <div class="work-area">
+      <textarea placeholder="Burada üretim yapılır..."></textarea>
     </div>
-
-    <!-- ALT BAR -->
-    <div class="footer">
-      <input class="prompt" id="prompt" placeholder="Üretim bilgilerini yaz, içeceğini al, arkana yaslan ve hemen tasarıma başla.">
-      <button class="btn upload" onclick="uploadFile()">📁 Dosya Yükle</button>
-      <button class="btn create" onclick="createDesign()">✨ Createc ile Üret</button>
-      <button class="btn save" onclick="saveWork()">💾 Kaydet</button>
-      <button class="btn download" onclick="downloadWork()">⬇️ İndir</button>
-    </div>
-
-    <div class="note">Createc AI hata yapabilir. Önemli bilgileri kontrol edin.</div>
   </div>
 
-  <script>
-    function login(){ alert('Giriş ekranı (yakında)'); }
-    function closeCanvas(){ document.getElementById('canvas').style.display='none'; }
-    function uploadFile(){ alert('Dosya yükleme çalıştı'); }
-    function createDesign(){ alert('Üretim başlatıldı'); }
-    function saveWork(){ alert('Kaydedildi'); }
-    function downloadWork(){ alert('İndirme başladı'); }
-  </script>
+  <!-- RIGHT -->
+  <div class="plans">
+    <div class="plan free">
+      <strong>Free</strong>
+      <p>Reklamlı kullanım</p>
+      <button class="secondary">Aktif</button>
+    </div>
+    <div class="plan paid">
+      <strong>Paid</strong>
+      <p>Reklamsız + hız</p>
+      <button class="primary">Yükselt</button>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <input placeholder="Ne tasarlamak istiyorsun?" />
+  <button class="secondary">Yükle</button>
+  <button class="primary">Üret</button>
+</footer>
 
 </body>
 </html>
