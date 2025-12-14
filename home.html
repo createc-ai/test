@@ -1,138 +1,75 @@
 <!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Createc AI</title>
 
-  <!-- favicon (yoksa sorun çıkarmaz) -->
-  <link rel="icon" href="favicon.png" />
 
-  <!-- FONT -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+/* MAIN LAYOUT */
+main{flex:1;padding:16px}
+.panel{
+border:3px solid #1ea7d7;background:#fff;
+height:100%;display:flex;flex-direction:column
+}
 
-  <style>
-    *{box-sizing:border-box;font-family:'Inter',sans-serif}
-    body{margin:0;background:#f5f7fa;color:#111;display:flex;flex-direction:column;height:100vh}
 
-    /* HEADER */
-    header{
-      height:64px;background:#ffffff;border-bottom:1px solid #e5e7eb;
-      display:flex;align-items:center;justify-content:space-between;padding:0 20px
-    }
-    .brand{display:flex;align-items:center;gap:10px}
-    .brand img{width:36px;height:36px}
-    .brand span{font-weight:700;font-size:18px}
-    .login{background:#2563eb;color:#fff;border:none;padding:8px 18px;border-radius:20px;cursor:pointer}
+/* CANVAS – senin orta alan */
+.canvas{
+flex:1;position:relative;background:#fff
+}
+.canvas::after{
+content:'REKLAM / ÇALIŞMA ALANI';
+position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+color:#6b7280;font-size:14px
+}
+.close{
+position:absolute;top:8px;right:12px;font-size:18px;font-weight:700;cursor:pointer
+}
 
-    /* MAIN */
-    main{flex:1;display:flex;gap:16px;padding:16px}
 
-    /* LEFT PANEL */
-    .tools{
-      width:220px;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:14px
-    }
-    .tools h3{margin:0 0 10px;font-size:14px;color:#555}
-    .tool-btn{
-      width:100%;padding:10px;margin-bottom:8px;border-radius:8px;
-      border:1px solid #e5e7eb;background:#f9fafb;cursor:pointer;text-align:left
-    }
+/* FOOTER – senin alt üretim barı */
+footer{
+border-top:3px solid #1ea7d7;
+padding:10px;display:flex;gap:10px;align-items:center
+}
+footer input{
+flex:1;padding:12px;border-radius:10px;border:1px solid #d1d5db
+}
+footer button{
+padding:12px 14px;border:none;border-radius:10px;cursor:pointer;font-weight:600
+}
+.gray{background:#6b7280;color:#fff}
+.blue{background:#1ea7d7;color:#fff}
 
-    /* CENTER AREA */
-    .workspace{
-      flex:1;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;
-      display:flex;flex-direction:column;overflow:hidden
-    }
-    .ad-area{
-      height:140px;border-bottom:1px dashed #cbd5e1;
-      display:flex;align-items:center;justify-content:center;font-size:14px;color:#555
-    }
-    .work-area{
-      flex:1;padding:14px
-    }
-    .work-area textarea{
-      width:100%;height:100%;resize:none;border:1px solid #e5e7eb;border-radius:8px;padding:12px
-    }
 
-    /* RIGHT PANEL */
-    .plans{
-      width:220px;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:14px
-    }
-    .plan{border:1px solid #e5e7eb;border-radius:10px;padding:12px;margin-bottom:10px}
-    .plan.free{background:#f9fafb}
-    .plan.paid{background:#eef2ff;border-color:#2563eb}
-    .plan button{
-      margin-top:8px;width:100%;padding:8px;border:none;border-radius:8px;cursor:pointer
-    }
-
-    /* FOOTER */
-    footer{
-      height:64px;background:#ffffff;border-top:1px solid #e5e7eb;
-      display:flex;align-items:center;gap:10px;padding:0 16px
-    }
-    footer input{
-      flex:1;padding:10px;border-radius:8px;border:1px solid #e5e7eb
-    }
-    footer button{
-      padding:10px 14px;border-radius:8px;border:none;cursor:pointer
-    }
-    .primary{background:#2563eb;color:#fff}
-    .secondary{background:#e5e7eb}
-
-    @media(max-width:900px){
-      main{flex-direction:column}
-      .tools,.plans{width:100%}
-    }
-  </style>
+.note{font-size:12px;color:#6b7280;text-align:center;margin:6px 0}
+</style>
 </head>
 <body>
 
+
 <header>
-  <div class="brand">
-    <img src="logo.png" alt="logo">
-    <span>Createc AI</span>
-  </div>
-  <button class="login" onclick="alert('Giriş yakında')">Giriş</button>
+<div class="brand">
+<img src="logo.png" alt="logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+<div class="fallback" style="display:none">C</div>
+<span>Createc AI</span>
+</div>
+<button class="login">GİRİŞ</button>
 </header>
 
+
 <main>
-  <!-- LEFT -->
-  <div class="tools">
-    <h3>Araçlar</h3>
-    <button class="tool-btn">Afiş Tasarımı</button>
-    <button class="tool-btn">Sosyal Medya</button>
-    <button class="tool-btn">Kartvizit</button>
-    <button class="tool-btn">Banner</button>
-  </div>
-
-  <!-- CENTER -->
-  <div class="workspace">
-    <div class="ad-area">Reklam Alanı (tek alan – planlara göre bölünecek)</div>
-    <div class="work-area">
-      <textarea placeholder="Burada üretim yapılır..."></textarea>
-    </div>
-  </div>
-
-  <!-- RIGHT -->
-  <div class="plans">
-    <div class="plan free">
-      <strong>Free</strong>
-      <p>Reklamlı kullanım</p>
-      <button class="secondary">Aktif</button>
-    </div>
-    <div class="plan paid">
-      <strong>Paid</strong>
-      <p>Reklamsız + hız</p>
-      <button class="primary">Yükselt</button>
-    </div>
-  </div>
+<div class="panel">
+<div class="canvas">
+<div class="close">X</div>
+</div>
+<footer>
+<input placeholder="Üretim bilgilerini yaz, arkana yaslan ve başla…" />
+<button class="gray">Yükle</button>
+<button class="blue">Create</button>
+<button class="gray">Kaydet</button>
+<button class="gray">İndir</button>
+</footer>
+</div>
+<div class="note">Createc AI hata yapabilir. Önemli bilgileri kontrol edin.</div>
 </main>
 
-<footer>
-  <input placeholder="Ne tasarlamak istiyorsun?" />
-  <button class="secondary">Yükle</button>
-  <button class="primary">Üret</button>
-</footer>
 
 </body>
 </html>
