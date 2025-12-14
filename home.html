@@ -1,194 +1,94 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Createc AI</title>
-
-  <!-- ICONS -->
-  <link rel="icon" href="favicon.png" />
-
-  <!-- FONTS (değiştirilebilir) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <!-- CORE STYLE -->
+  <link rel="icon" href="favicon.png">
   <style>
-    :root {
-      --bg: #0f1115;
-      --panel: #151821;
-      --border: #262a35;
-      --text: #e6e6e6;
-      --accent: #4f7cff;
+    *{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+    body{margin:0;background:#fff}
+
+    /* HEADER */
+    .topbar{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 20px;border-bottom:2px solid #22a6d5
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{width:44px;height:44px}
+    .brand-text h1{margin:0;font-size:26px}
+    .brand-text span{font-size:13px;color:#555}
+    .login{
+      background:#22a6d5;color:#fff;border:none;
+      padding:10px 18px;border-radius:22px;font-weight:bold;cursor:pointer
     }
 
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      display: flex;
-      height: 100vh;
+    /* MAIN FRAME */
+    .frame{padding:14px}
+    .canvas{
+      border:3px solid #22a6d5;
+      height:70vh;position:relative;background:#fff
+    }
+    .close{
+      position:absolute;top:6px;right:10px;
+      font-size:20px;font-weight:bold;cursor:pointer
     }
 
-    /* ========== SIDEBAR ========== */
-    #sidebar {
-      width: 70px;
-      background: #0b0d12;
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 12px 0;
+    /* FOOTER INPUT */
+    .footer{
+      display:flex;align-items:center;gap:10px;
+      border-top:2px solid #22a6d5;padding:10px
     }
-
-    #sidebar img {
-      width: 32px;
-      margin-bottom: 20px;
+    .prompt{
+      flex:1;border:1px solid #ccc;border-radius:8px;
+      padding:10px;font-size:14px
     }
-
-    /* ========== HEADER ========== */
-    header {
-      height: 60px;
-      background: var(--panel);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
-      gap: 10px;
+    .btn{
+      border:none;padding:10px 14px;border-radius:8px;
+      cursor:pointer;font-weight:bold
     }
+    .upload{background:#666;color:#fff}
+    .create{background:#22a6d5;color:#fff}
+    .save{background:#777;color:#fff}
+    .download{background:#888;color:#fff}
 
-    header img {
-      height: 28px;
-    }
-
-    /* ========== MAIN LAYOUT ========== */
-    #main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    #content {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 1fr 320px;
-    }
-
-    /* ========== WORK AREA ========== */
-    #work-area {
-      padding: 20px;
-    }
-
-    textarea {
-      width: 100%;
-      height: 100%;
-      background: #0c0f16;
-      color: var(--text);
-      border: 1px solid var(--border);
-      padding: 15px;
-      resize: none;
-    }
-
-    /* ========== AD MODULE (TEK ALAN) ========== */
-    #ad-area {
-      background: var(--panel);
-      border-left: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    #ad-header {
-      padding: 10px;
-      font-size: 12px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-    }
-
-    #ad-content {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-
-    #ad-close {
-      cursor: pointer;
-      color: #aaa;
-    }
-
-    /* ========== MODÜL NOTLARI ==========
-      - Reklam tek alandır
-      - Free planda JS ile bölünür
-      - Video / görsel destekli
-      - Tıklanabilir
-      - Kapatılınca work-area genişler
-      - Admin reklamları buradan yayınlanır
-    */
-
-    @media (max-width: 900px) {
-      #content { grid-template-columns: 1fr; }
-      #ad-area { height: 200px; border-left: none; border-top: 1px solid var(--border); }
+    .note{
+      text-align:center;font-size:12px;color:#777;margin-top:6px
     }
   </style>
 </head>
 <body>
 
-  <!-- SIDEBAR -->
-  <div id="sidebar">
-    <img src="favicon.png" alt="icon" />
+  <!-- HEADER -->
+  <div class="topbar">
+    <div class="brand">
+      <img src="logo.png" alt="Createc AI">
+      <div class="brand-text">
+        <h1>Createc AI</h1>
+        <span>Reklam & Matbaa Tasarım Asistanı</span>
+      </div>
+    </div>
+    <button class="login">GİRİŞ</button>
   </div>
 
   <!-- MAIN -->
-  <div id="main">
-
-    <!-- HEADER -->
-    <header>
-      <img src="logo.png" alt="Createc AI" />
-      <strong>Createc AI</strong>
-    </header>
-
-    <!-- CONTENT -->
-    <div id="content">
-
-      <!-- WORK AREA -->
-      <div id="work-area">
-        <textarea placeholder="Yazmaya başla..."></textarea>
-      </div>
-
-      <!-- AD AREA (TEK MODÜL) -->
-      <aside id="ad-area">
-        <div id="ad-header">
-          <span>Reklam Alanı</span>
-          <span id="ad-close">✕</span>
-        </div>
-        <div id="ad-content">
-          Açılış Reklamı / Admin Reklamı
-        </div>
-      </aside>
-
+  <div class="frame">
+    <div class="canvas">
+      <div class="close">X</div>
+      <!-- REKLAM / ÇALIŞMA ALANI -->
     </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <input class="prompt" placeholder="Üretim bilgilerini yaz, içeceğini al, arkana yaslan ve hemen tasarıma başla.">
+      <button class="btn upload">Dosya Yükle</button>
+      <button class="btn create">Createc ile Üret</button>
+      <button class="btn save">Kaydet</button>
+      <button class="btn download">İndir</button>
+    </div>
+
+    <div class="note">Createc AI hata yapabilir. Önemli bilgileri kontrol edin.</div>
   </div>
-
-  <!-- CORE SCRIPT -->
-  <script>
-    const adClose = document.getElementById('ad-close');
-    const adArea = document.getElementById('ad-area');
-
-    adClose.onclick = () => {
-      adArea.style.display = 'none';
-    };
-
-    /*
-      PLAN YAPISI (ileride):
-      - free: 10 dk reklam, bölünmüş alan
-      - plus/pro/master: tam alan / kiralama
-      - ödeme, plan, admin panelleri modül olarak eklenecek
-    */
-  </script>
 
 </body>
 </html>
