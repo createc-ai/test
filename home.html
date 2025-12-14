@@ -1,229 +1,194 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Createc AI</title>
-<style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Createc AI</title>
+
+  <!-- ICONS -->
+  <link rel="icon" href="favicon.png" />
+
+  <!-- FONTS (değiştirilebilir) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- CORE STYLE -->
+  <style>
+    :root {
+      --bg: #0f1115;
+      --panel: #151821;
+      --border: #262a35;
+      --text: #e6e6e6;
+      --accent: #4f7cff;
+    }
+
+    * { box-sizing: border-box; }
     body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #f6f6f6;
-        color: #333;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      height: 100vh;
     }
 
-    /* ÜST BAR */
-    .top-bar {
-        width: 100%;
-        height: 60px;
-        background: white;
-        border-bottom: 1px solid #ddd;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 20px;
-        position: fixed;
-        top: 0;
-        z-index: 20;
+    /* ========== SIDEBAR ========== */
+    #sidebar {
+      width: 70px;
+      background: #0b0d12;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px 0;
     }
 
-    .top-left {
-        font-size: 20px;
-        font-weight: bold;
-        color: #333;
+    #sidebar img {
+      width: 32px;
+      margin-bottom: 20px;
     }
 
-    .top-right {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        font-size: 14px;
+    /* ========== HEADER ========== */
+    header {
+      height: 60px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 10px;
     }
 
-    .credit {
-        background: #ffe0b2;
-        padding: 6px 12px;
-        border-radius: 8px;
-        font-weight: bold;
+    header img {
+      height: 28px;
     }
 
-    /* ANA İÇERİK */
-    .container {
-        display: flex;
-        margin-top: 60px;
+    /* ========== MAIN LAYOUT ========== */
+    #main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
-    /* SOL MENÜ */
-    .sidebar {
-        width: 260px;
-        background: white;
-        height: calc(100vh - 60px);
-        border-right: 1px solid #ddd;
-        padding: 20px;
-        box-sizing: border-box;
+    #content {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 320px;
     }
 
-    .sidebar button {
-        width: 100%;
-        background: #4CAF50;
-        border: none;
-        padding: 14px;
-        color: white;
-        font-size: 16px;
-        border-radius: 10px;
-        cursor: pointer;
-        margin-bottom: 25px;
+    /* ========== WORK AREA ========== */
+    #work-area {
+      padding: 20px;
     }
 
-    .sidebar h3 {
-        font-size: 17px;
-        margin-bottom: 10px;
+    textarea {
+      width: 100%;
+      height: 100%;
+      background: #0c0f16;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 15px;
+      resize: none;
     }
 
-    .sidebar select, .sidebar input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        font-size: 14px;
+    /* ========== AD MODULE (TEK ALAN) ========== */
+    #ad-area {
+      background: var(--panel);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: relative;
     }
 
-    .sidebar .upload-box {
-        margin-top: 15px;
+    #ad-header {
+      padding: 10px;
+      font-size: 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
     }
 
-    /* ANA CHAT PANELİ */
-    .main {
-        flex: 1;
-        padding: 30px;
-        position: relative;
+    #ad-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
 
-    .main-title {
-        font-size: 28px;
-        font-weight: bold;
-        margin-bottom: 30px;
-        color: #333;
+    #ad-close {
+      cursor: pointer;
+      color: #aaa;
     }
 
-    .chat-box {
-        width: 100%;
-        height: 70vh;
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 12px;
-        padding: 20px;
-        overflow-y: auto;
-    }
+    /* ========== MODÜL NOTLARI ==========
+      - Reklam tek alandır
+      - Free planda JS ile bölünür
+      - Video / görsel destekli
+      - Tıklanabilir
+      - Kapatılınca work-area genişler
+      - Admin reklamları buradan yayınlanır
+    */
 
-    /* MESAJ GİRİŞ */
-    .chat-input-box {
-        margin-top: 20px;
-        display: flex;
-        gap: 10px;
+    @media (max-width: 900px) {
+      #content { grid-template-columns: 1fr; }
+      #ad-area { height: 200px; border-left: none; border-top: 1px solid var(--border); }
     }
-
-    .chat-input-box textarea {
-        flex: 1;
-        height: 75px;
-        padding: 15px;
-        font-size: 15px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        resize: none;
-    }
-
-    .chat-input-box button {
-        width: 140px;
-        background: #2196F3;
-        border: none;
-        color: white;
-        border-radius: 10px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-
-    /* REKLAM ALANI */
-    .ad-box {
-        position: fixed;
-        right: 20px;
-        top: 180px;
-        width: 260px;
-        background: #fff3cd;
-        padding: 20px;
-        border-radius: 12px;
-        border: 1px solid #e6c789;
-        font-size: 15px;
-        z-index: 50;
-        text-align: center;
-        font-weight: bold;
-    }
-</style>
+  </style>
 </head>
-
 <body>
 
-<!-- ÜST BAR -->
-<div class="top-bar">
-    <div class="top-left">Createc AI</div>
-    <div class="top-right">
-        <div class="credit">Kredi: 120</div>
-        <div class="username">Kullanıcı: Guest</div>
-    </div>
-</div>
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <img src="favicon.png" alt="icon" />
+  </div>
 
-<div class="container">
+  <!-- MAIN -->
+  <div id="main">
 
-    <!-- SOL MENÜ -->
-    <div class="sidebar">
+    <!-- HEADER -->
+    <header>
+      <img src="logo.png" alt="Createc AI" />
+      <strong>Createc AI</strong>
+    </header>
 
-        <button>Yeni İş Oluştur</button>
+    <!-- CONTENT -->
+    <div id="content">
 
-        <h3>Dil Seçimi</h3>
-        <select>
-            <option>Türkçe</option>
-            <option>English</option>
-            <option>Español</option>
-            <option>Deutsch</option>
-            <option>Русский</option>
-            <option>中文</option>
-        </select>
+      <!-- WORK AREA -->
+      <div id="work-area">
+        <textarea placeholder="Yazmaya başla..."></textarea>
+      </div>
 
-        <h3>Dosya Yükle</h3>
-        <div class="upload-box">
-            <input type="file" />
+      <!-- AD AREA (TEK MODÜL) -->
+      <aside id="ad-area">
+        <div id="ad-header">
+          <span>Reklam Alanı</span>
+          <span id="ad-close">✕</span>
         </div>
-
-        <h3>Ayarlar</h3>
-        <select>
-            <option>Güvenlik</option>
-            <option>Bildirimler</option>
-            <option>Hesap</option>
-        </select>
+        <div id="ad-content">
+          Açılış Reklamı / Admin Reklamı
+        </div>
+      </aside>
 
     </div>
+  </div>
 
-    <!-- ANA CHAT PANELİ -->
-    <div class="main">
-        <div class="main-title">Hoşgeldin</div>
+  <!-- CORE SCRIPT -->
+  <script>
+    const adClose = document.getElementById('ad-close');
+    const adArea = document.getElementById('ad-area');
 
-        <div class="chat-box" id="chatBox">
-            <!-- mesajlar burada -->
-        </div>
+    adClose.onclick = () => {
+      adArea.style.display = 'none';
+    };
 
-        <div class="chat-input-box">
-            <textarea placeholder="Mesajınızı yazın..."></textarea>
-            <button>Gönder</button>
-        </div>
-    </div>
-
-</div>
-
-<!-- REKLAM -->
-<div class="ad-box">
-    ⭐ Ücretsiz kullanıcı — Daha fazla özellik için PLUS’a geç!
-</div>
+    /*
+      PLAN YAPISI (ileride):
+      - free: 10 dk reklam, bölünmüş alan
+      - plus/pro/master: tam alan / kiralama
+      - ödeme, plan, admin panelleri modül olarak eklenecek
+    */
+  </script>
 
 </body>
 </html>
