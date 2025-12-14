@@ -1,75 +1,100 @@
 <!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Createc AI</title>
 
+  <!-- FAVICON (yoksa otomatik gizlenir) -->
+  <link rel="icon" href="favicon.png" onerror="this.remove()" />
 
-/* MAIN LAYOUT */
-main{flex:1;padding:16px}
-.panel{
-border:3px solid #1ea7d7;background:#fff;
-height:100%;display:flex;flex-direction:column
-}
+  <!-- FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
+  <style>
+    *{box-sizing:border-box;font-family:'Inter',sans-serif}
+    body{margin:0;background:#f3f4f6;color:#111;height:100vh;display:flex;flex-direction:column}
 
-/* CANVAS – senin orta alan */
-.canvas{
-flex:1;position:relative;background:#fff
-}
-.canvas::after{
-content:'REKLAM / ÇALIŞMA ALANI';
-position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-color:#6b7280;font-size:14px
-}
-.close{
-position:absolute;top:8px;right:12px;font-size:18px;font-weight:700;cursor:pointer
-}
+    /* HEADER – senin görsele uyumlu sade mavi hat */
+    header{
+      height:70px;background:#ffffff;
+      border-bottom:3px solid #1ea7d7;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 24px
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{width:44px;height:44px;object-fit:contain}
+    .brand .fallback{
+      width:44px;height:44px;border-radius:10px;
+      background:#1ea7d7;color:#fff;display:flex;
+      align-items:center;justify-content:center;font-weight:700
+    }
+    .brand span{font-size:22px;font-weight:700}
+    .login{background:#1ea7d7;color:#fff;border:none;padding:10px 22px;border-radius:24px;cursor:pointer}
 
+    /* MAIN LAYOUT */
+    main{flex:1;padding:16px}
+    .panel{
+      border:3px solid #1ea7d7;background:#fff;
+      height:100%;display:flex;flex-direction:column
+    }
 
-/* FOOTER – senin alt üretim barı */
-footer{
-border-top:3px solid #1ea7d7;
-padding:10px;display:flex;gap:10px;align-items:center
-}
-footer input{
-flex:1;padding:12px;border-radius:10px;border:1px solid #d1d5db
-}
-footer button{
-padding:12px 14px;border:none;border-radius:10px;cursor:pointer;font-weight:600
-}
-.gray{background:#6b7280;color:#fff}
-.blue{background:#1ea7d7;color:#fff}
+    /* CANVAS – senin orta alan */
+    .canvas{
+      flex:1;position:relative;background:#fff
+    }
+    .canvas::after{
+      content:'REKLAM / ÇALIŞMA ALANI';
+      position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+      color:#6b7280;font-size:14px
+    }
+    .close{
+      position:absolute;top:8px;right:12px;font-size:18px;font-weight:700;cursor:pointer
+    }
 
+    /* FOOTER – senin alt üretim barı */
+    footer{
+      border-top:3px solid #1ea7d7;
+      padding:10px;display:flex;gap:10px;align-items:center
+    }
+    footer input{
+      flex:1;padding:12px;border-radius:10px;border:1px solid #d1d5db
+    }
+    footer button{
+      padding:12px 14px;border:none;border-radius:10px;cursor:pointer;font-weight:600
+    }
+    .gray{background:#6b7280;color:#fff}
+    .blue{background:#1ea7d7;color:#fff}
 
-.note{font-size:12px;color:#6b7280;text-align:center;margin:6px 0}
-</style>
+    .note{font-size:12px;color:#6b7280;text-align:center;margin:6px 0}
+  </style>
 </head>
 <body>
 
-
 <header>
-<div class="brand">
-<img src="logo.png" alt="logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-<div class="fallback" style="display:none">C</div>
-<span>Createc AI</span>
-</div>
-<button class="login">GİRİŞ</button>
+  <div class="brand">
+    <img src="logo.png" alt="logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="fallback" style="display:none">C</div>
+    <span>Createc AI</span>
+  </div>
+  <button class="login">GİRİŞ</button>
 </header>
 
-
 <main>
-<div class="panel">
-<div class="canvas">
-<div class="close">X</div>
-</div>
-<footer>
-<input placeholder="Üretim bilgilerini yaz, arkana yaslan ve başla…" />
-<button class="gray">Yükle</button>
-<button class="blue">Create</button>
-<button class="gray">Kaydet</button>
-<button class="gray">İndir</button>
-</footer>
-</div>
-<div class="note">Createc AI hata yapabilir. Önemli bilgileri kontrol edin.</div>
+  <div class="panel">
+    <div class="canvas">
+      <div class="close">X</div>
+    </div>
+    <footer>
+      <input placeholder="Üretim bilgilerini yaz, arkana yaslan ve başla…" />
+      <button class="gray">Yükle</button>
+      <button class="blue">Create</button>
+      <button class="gray">Kaydet</button>
+      <button class="gray">İndir</button>
+    </footer>
+  </div>
+  <div class="note">Createc AI hata yapabilir. Önemli bilgileri kontrol edin.</div>
 </main>
-
 
 </body>
 </html>
