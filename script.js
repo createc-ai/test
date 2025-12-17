@@ -142,6 +142,14 @@ canvas.addEventListener("mouseup", () => {
 });
 
 canvas.addEventListener("mousemove", (e) => {
+  if (selectedObject && !selectedObject.locked) {
+  const rect = canvas.getBoundingClientRect();
+  selectedObject.x = e.clientX - rect.left - dragOffsetX;
+  selectedObject.y = e.clientY - rect.top - dragOffsetY;
+  redrawCanvas();
+  return;
+}
+
   if (!isDrawing) return;
 
   ctx.lineWidth = 3;
