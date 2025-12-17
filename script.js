@@ -1,6 +1,10 @@
 const canvas = document.getElementById("designCanvas");
 const ctx = canvas.getContext("2d");
 
+// === OBJECT STORAGE ===
+const objects = []; 
+// örnek: { type: "text", x, y, text, font, size, color }
+
 ctx.fillStyle = "#f2f2f2";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
