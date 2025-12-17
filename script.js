@@ -99,6 +99,39 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 let isDrawing = false;
 
+// 3️⃣-4 Text drag support
+let dragOffsetX = 0;
+let dragOffsetY = 0;
+
+canvas.addEventListener("mousedown", (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  selectedObject = null;
+
+  for (let i = objects.length - 1; i >= 0; i--) {
+    const obj = objects[i];
+    if (obj.type === "text") {
+      const width = ctx.measureText(obj.text).width;
+      const height = obj.size;
+
+      if (
+        x >= obj.x &&
+        x <= obj.x + width &&
+        y <= obj.y &&
+        y >= obj.y - height
+      ) {
+        selectedObject = obj;
+        dragOffsetX = x - obj.x;
+        dragOffsetY = y - obj.y;
+        break;
+      }
+    }
+  }
+});
+
+
 canvas.addEventListener("mousedown", () => {
   isDrawing = true;
 });
