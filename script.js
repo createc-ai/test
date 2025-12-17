@@ -68,6 +68,17 @@ function resetToolState() {
   isDrawing = false;
 }
 
+// 4️⃣-2 Tool seçimi event listener
+const shapeButton = document.querySelector("[data-tool='shape']");
+shapeButton.addEventListener("click", () => {
+  setActiveTool("shape");
+  resetToolState();
+});
+
+
+
+
+
 // 2️⃣-4 Selected object
 let selectedObject = null;
 
@@ -89,6 +100,20 @@ function createTextObject(text, x, y) {
     locked: false
   };
 }
+
+// 4️⃣-1 Shape object model
+function createShapeObject(type, x, y, width, height, color, lineWidth, fill) {
+  return {
+    type: "shape",
+    shapeType: type, // rectangle, circle, line
+    x, y, width, height,
+    color,
+    lineWidth,
+    fill,
+    locked: false
+  };
+}
+
 
 
 
