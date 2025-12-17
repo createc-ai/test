@@ -76,6 +76,19 @@ function toggleLock(object) {
   object.locked = !object.locked;
 }
 
+// 3️⃣-1 Text object model helper
+function createTextObject(text, x, y) {
+  return {
+    type: "text",
+    text,
+    x,
+    y,
+    font: "Inter",
+    size: 24,
+    color: "#000",
+    locked: false
+  };
+}
 
 
 
