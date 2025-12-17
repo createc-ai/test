@@ -21,6 +21,31 @@ function redrawCanvas() {
   });
 }
 
+const undoStack = [];
+const redoStack = [];
+
+function saveState() {
+  undoStack.push(JSON.stringify(objects));
+  redoStack.length = 0;
+}
+
+function clearCanvas() {
+  saveState();
+  objects.length = 0;
+  redrawCanvas();
+}
+
+function saveToLocal() {
+  localStorage.setItem("createc-canvas", JSON.stringify(objects));
+}
+
+window.addEventListener("load", () => {
+  const saved = localStorage.getItem("createc-canvas");
+  if (saved) {
+    objects.push(...JSON.parse(saved));
+    redrawCanvas();
+  }
+});
 
 ctx.fillStyle = "#f2f2f2";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
