@@ -47,6 +47,21 @@ window.addEventListener("load", () => {
   }
 });
 
+// 2️⃣-1 Active tool state
+let activeTool = "draw";
+const toolButtons = document.querySelectorAll(".editor-tools button");
+
+function setActiveTool(tool) {
+  activeTool = tool;
+
+  toolButtons.forEach(btn => btn.classList.remove("active"));
+  const activeBtn = document.querySelector(`[data-tool='${tool}']`);
+  if (activeBtn) activeBtn.classList.add("active");
+}
+
+
+
+
 ctx.fillStyle = "#f2f2f2";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
