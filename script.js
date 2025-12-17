@@ -126,7 +126,9 @@ let isDrawing = false;
 
 
 
-canvas.addEventListener("mousedown", (e) => {
+canvas.addEventListener("mousedown", () => {
+  isDrawing = true;
+});
 
   // 3️⃣-4 Text drag support
   let dragOffsetX = 0;
@@ -160,10 +162,6 @@ canvas.addEventListener("mousedown", (e) => {
   }
 });
 
-
-canvas.addEventListener("mousedown", () => {
-  isDrawing = true;
-});
 
 canvas.addEventListener("mouseup", () => {
   isDrawing = false;
