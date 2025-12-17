@@ -136,16 +136,21 @@ canvas.addEventListener("click", (e) => {
   const text = prompt("Yazıyı gir:");
   if (!text) return;
 
+  saveState();
+
   const rect = canvas.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
 
-  ctx.fillStyle = "#000";
-  ctx.font = "24px Inter";
-  ctx.fillText(text, x, y);
+  const textObj = createTextObject(text, x, y);
+  objects.push(textObj);
 
-  activeTool = "draw"; // otomatik çizime dön
+  redrawCanvas();
+  saveToLocal();
+
+  activeTool = "draw";
 });
+
 
 // 2️⃣-5 Keyboard shortcuts
 document.addEventListener("keydown", (e) => {
