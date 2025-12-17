@@ -163,6 +163,22 @@ canvas.addEventListener("mousemove", (e) => {
   ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
 });
 
+canvas.addEventListener("dblclick", () => {
+  if (!selectedObject || selectedObject.type !== "text") return;
+
+  const newText = prompt("Yeni metin:", selectedObject.text);
+  if (!newText) return;
+
+  saveState();
+  selectedObject.text = newText;
+  redrawCanvas();
+  saveToLocal();
+});
+
+
+
+
+
 const textTool = document.getElementById("toolText");
 
 const fontSelect = document.getElementById("fontSelect");
@@ -180,6 +196,15 @@ fontSizeInput.addEventListener("input", () => {
   selectedObject.size = fontSizeInput.value;
   redrawCanvas();
 });
+
+const textColorInput = document.getElementById("textColor");
+
+textColorInput.addEventListener("input", () => {
+  if (!selectedObject) return;
+  selectedObject.color = textColorInput.value;
+  redrawCanvas();
+});
+
 
 
 
