@@ -165,6 +165,24 @@ canvas.addEventListener("mousemove", (e) => {
 
 const textTool = document.getElementById("toolText");
 
+const fontSelect = document.getElementById("fontSelect");
+
+fontSelect.addEventListener("change", () => {
+  if (!selectedObject) return;
+  selectedObject.font = fontSelect.value;
+  redrawCanvas();
+});
+
+const fontSizeInput = document.getElementById("fontSize");
+
+fontSizeInput.addEventListener("input", () => {
+  if (!selectedObject) return;
+  selectedObject.size = fontSizeInput.value;
+  redrawCanvas();
+});
+
+
+
 let activeTool = "draw";
 
 textTool.addEventListener("click", () => {
