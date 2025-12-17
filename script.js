@@ -124,11 +124,15 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 let isDrawing = false;
 
-// 3️⃣-4 Text drag support
-let dragOffsetX = 0;
-let dragOffsetY = 0;
+
 
 canvas.addEventListener("mousedown", (e) => {
+
+  // 3️⃣-4 Text drag support
+  let dragOffsetX = 0;
+  let dragOffsetY = 0;
+  
+  
   const rect = canvas.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
