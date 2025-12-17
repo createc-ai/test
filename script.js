@@ -59,6 +59,25 @@ function setActiveTool(tool) {
   if (activeBtn) activeBtn.classList.add("active");
 }
 
+function resetToolState() {
+  isDrawing = false;
+}
+
+// 2️⃣-3 Tool state reset
+function resetToolState() {
+  isDrawing = false;
+}
+
+// 2️⃣-4 Selected object
+let selectedObject = null;
+
+// 2️⃣-7 Object lock toggle
+function toggleLock(object) {
+  object.locked = !object.locked;
+}
+
+
+
 
 
 
