@@ -18,6 +18,16 @@ function redrawCanvas() {
       ctx.font = `${obj.size}px ${obj.font}`;
       ctx.fillText(obj.text, obj.x, obj.y);
     }
+    if (obj.type === "shape") {
+      ctx.strokeStyle = obj.color;
+      ctx.lineWidth = obj.lineWidth;
+      if (obj.fill) {
+        ctx.fillStyle = obj.color;
+        ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+      } else {
+        ctx.strokeRect(obj.x, obj.y, obj.width, obj.height);
+      }
+    }
   });
 }
 
@@ -53,7 +63,6 @@ const toolButtons = document.querySelectorAll(".editor-tools button");
 
 function setActiveTool(tool) {
   activeTool = tool;
-
   toolButtons.forEach(btn => btn.classList.remove("active"));
   const activeBtn = document.querySelector(`[data-tool='${tool}']`);
   if (activeBtn) activeBtn.classList.add("active");
@@ -63,21 +72,12 @@ function resetToolState() {
   isDrawing = false;
 }
 
-// 2️⃣-3 Tool state reset
-function resetToolState() {
-  isDrawing = false;
-}
-
-// 4️⃣-2 Tool seçimi event listener
+// 2️⃣-4 Tool seçimi event listener
 const shapeButton = document.querySelector("[data-tool='shape']");
 shapeButton.addEventListener("click", () => {
   setActiveTool("shape");
   resetToolState();
 });
-
-
-
-
 
 // 2️⃣-4 Selected object
 let selectedObject = null;
@@ -105,7 +105,7 @@ function createTextObject(text, x, y) {
 function createShapeObject(type, x, y, width, height, color, lineWidth, fill) {
   return {
     type: "shape",
-    shapeType: type, // rectangle, circle, line
+    shapeType: type,
     x, y, width, height,
     color,
     lineWidth,
@@ -114,183 +114,155 @@ function createShapeObject(type, x, y, width, height, color, lineWidth, fill) {
   };
 }
 
-
-
-
-
-
+// Arka plan
 ctx.fillStyle = "#f2f2f2";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 let isDrawing = false;
+let dragOffsetX = 0;
+let dragOffsetY = 0;
 
-
-
-canvas.addEventListener("mousedown", () => {
-  isDrawing = true;
-});
-
-  // 3️⃣-4 Text drag support
-  let dragOffsetX = 0;
-  let dragOffsetY = 0;
-  
-  
+// === BİRLEŞİK MOUSEDOWN LISTENER ===
+canvas.addEventListener("mousedown", (e) => {
   const rect = canvas.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
 
+  // Text drag kontrolü
   selectedObject = null;
-
+  dragOffsetX = 0;
+  dragOffsetY = 0;
   for (let i = objects.length - 1; i >= 0; i--) {
     const obj = objects[i];
     if (obj.type === "text") {
       const width = ctx.measureText(obj.text).width;
       const height = obj.size;
-
-      if (
-        x >= obj.x &&
-        x <= obj.x + width &&
-        y <= obj.y &&
-        y >= obj.y - height
-      ) {
+      if (x >= obj.x && x <= obj.x + width && y <= obj.y && y >= obj.y - height) {
         selectedObject = obj;
         dragOffsetX = x - obj.x;
         dragOffsetY = y - obj.y;
-        break;
+        return; // Text seçildi, diğer işlemleri engelle
       }
     }
   }
+
+  // Shape Tool başlatma
+  if (activeTool === "shape") {
+    selectedObject = {
+      type: "shape",
+      shapeType: "rectangle",
+      x,
+      y,
+      width: 0,
+      height: 0,
+      color: "#000",
+      lineWidth: 2,
+      fill: false,
+      locked: false
+    };
+    objects.push(selectedObject);
+    saveState();
+    return; // Shape çizim başladı
+  }
+
+  // Free draw başlatma
+  if (activeTool === "draw") {
+    isDrawing = true;
+  }
 });
 
-
+// Mouseup listener
 canvas.addEventListener("mouseup", () => {
   isDrawing = false;
+  selectedObject = null;
   ctx.beginPath();
 });
 
+// Mousemove listener
 canvas.addEventListener("mousemove", (e) => {
-  if (selectedObject && !selectedObject.locked) {
   const rect = canvas.getBoundingClientRect();
-  selectedObject.x = e.clientX - rect.left - dragOffsetX;
-  selectedObject.y = e.clientY - rect.top - dragOffsetY;
-  redrawCanvas();
-  return;
-}
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
 
+  // Text veya Shape sürükleme / güncelleme
+  if (selectedObject && !selectedObject.locked) {
+    if (selectedObject.type === "text") {
+      selectedObject.x = x - dragOffsetX;
+      selectedObject.y = y - dragOffsetY;
+    }
+    if (selectedObject.type === "shape") {
+      selectedObject.width = x - selectedObject.x;
+      selectedObject.height = y - selectedObject.y;
+    }
+    redrawCanvas();
+    return;
+  }
+
+  // Free draw
   if (!isDrawing) return;
-
   ctx.lineWidth = 3;
   ctx.lineCap = "round";
   ctx.strokeStyle = "#000";
-
-  const rect = canvas.getBoundingClientRect();
-  ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+  ctx.lineTo(x, y);
   ctx.stroke();
   ctx.beginPath();
-  ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+  ctx.moveTo(x, y);
 });
 
+// Doubleclick ile Text düzenleme
 canvas.addEventListener("dblclick", () => {
   if (!selectedObject || selectedObject.type !== "text") return;
-
   const newText = prompt("Yeni metin:", selectedObject.text);
   if (!newText) return;
-
   saveState();
   selectedObject.text = newText;
   redrawCanvas();
   saveToLocal();
 });
 
-
-
-
-
+// Text Tool seçimi
 const textTool = document.getElementById("toolText");
+textTool.addEventListener("click", () => {
+  activeTool = "text";
+});
 
+// Text ekleme
+canvas.addEventListener("click", (e) => {
+  if (activeTool !== "text") return;
+  const text = prompt("Yazıyı gir:");
+  if (!text) return;
+  saveState();
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  const textObj = createTextObject(text, x, y);
+  objects.push(textObj);
+  redrawCanvas();
+  saveToLocal();
+  activeTool = "draw";
+});
+
+// Font, boyut, renk değişimi
 const fontSelect = document.getElementById("fontSelect");
-
 fontSelect.addEventListener("change", () => {
   if (!selectedObject) return;
   selectedObject.font = fontSelect.value;
   redrawCanvas();
 });
-
 const fontSizeInput = document.getElementById("fontSize");
-
 fontSizeInput.addEventListener("input", () => {
   if (!selectedObject) return;
   selectedObject.size = fontSizeInput.value;
   redrawCanvas();
 });
-
 const textColorInput = document.getElementById("textColor");
-
 textColorInput.addEventListener("input", () => {
   if (!selectedObject) return;
   selectedObject.color = textColorInput.value;
   redrawCanvas();
 });
 
-
-
-if (activeTool === "shape") {
-  const rect = canvas.getBoundingClientRect();
-  const startX = e.clientX - rect.left;
-  const startY = e.clientY - rect.top;
-
-  selectedObject = {
-    type: "shape",
-    shapeType: "rectangle", // default
-    x: startX,
-    y: startY,
-    width: 0,
-    height: 0,
-    color: "#000",
-    lineWidth: 2,
-    fill: false,
-    locked: false
-  };
-
-  objects.push(selectedObject);
-  saveState();
-
-  return; // shape çizim başlatıldı, diğer işlemler çalışmasın
-}
-
-
-
-
-
-let activeTool = "draw";
-
-textTool.addEventListener("click", () => {
-  activeTool = "text";
-});
-
-canvas.addEventListener("click", (e) => {
-  if (activeTool !== "text") return;
-
-  const text = prompt("Yazıyı gir:");
-  if (!text) return;
-
-  saveState();
-
-  const rect = canvas.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-
-  const textObj = createTextObject(text, x, y);
-  objects.push(textObj);
-
-  redrawCanvas();
-  saveToLocal();
-
-  activeTool = "draw";
-});
-
-
-// 2️⃣-5 Keyboard shortcuts
+// Undo / Redo / Delete
 document.addEventListener("keydown", (e) => {
   if (e.ctrlKey && e.key === "z") {
     if (undoStack.length) {
@@ -300,7 +272,6 @@ document.addEventListener("keydown", (e) => {
       redrawCanvas();
     }
   }
-
   if (e.ctrlKey && e.key === "y") {
     if (redoStack.length) {
       undoStack.push(JSON.stringify(objects));
@@ -309,8 +280,6 @@ document.addEventListener("keydown", (e) => {
       redrawCanvas();
     }
   }
-
-  // 2️⃣-6 Delete ile silme
   if (e.key === "Delete" && selectedObject) {
     saveState();
     const index = objects.indexOf(selectedObject);
@@ -321,5 +290,3 @@ document.addEventListener("keydown", (e) => {
     }
   }
 });
-
-
