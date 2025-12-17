@@ -5,6 +5,23 @@ const ctx = canvas.getContext("2d");
 const objects = []; 
 // örnek: { type: "text", x, y, text, font, size, color }
 
+function redrawCanvas() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // arka plan
+  ctx.fillStyle = "#f2f2f2";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  objects.forEach(obj => {
+    if (obj.type === "text") {
+      ctx.fillStyle = obj.color;
+      ctx.font = `${obj.size}px ${obj.font}`;
+      ctx.fillText(obj.text, obj.x, obj.y);
+    }
+  });
+}
+
+
 ctx.fillStyle = "#f2f2f2";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
