@@ -134,5 +134,36 @@ canvas.addEventListener("click", (e) => {
   activeTool = "draw"; // otomatik çizime dön
 });
 
+// 2️⃣-5 Keyboard shortcuts
+document.addEventListener("keydown", (e) => {
+  if (e.ctrlKey && e.key === "z") {
+    if (undoStack.length) {
+      redoStack.push(JSON.stringify(objects));
+      objects.length = 0;
+      objects.push(...JSON.parse(undoStack.pop()));
+      redrawCanvas();
+    }
+  }
+
+  if (e.ctrlKey && e.key === "y") {
+    if (redoStack.length) {
+      undoStack.push(JSON.stringify(objects));
+      objects.length = 0;
+      objects.push(...JSON.parse(redoStack.pop()));
+      redrawCanvas();
+    }
+  }
+
+  // 2️⃣-6 Delete ile silme
+  if (e.key === "Delete" && selectedObject) {
+    saveState();
+    const index = objects.indexOf(selectedObject);
+    if (index > -1) {
+      objects.splice(index, 1);
+      selectedObject = null;
+      redrawCanvas();
+    }
+  }
+});
 
 
