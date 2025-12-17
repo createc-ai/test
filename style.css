@@ -449,3 +449,8 @@ body {
     gap: 20px;
     text-align: center;
   }
+
+.editor-tools button.active {
+  background: #7b5cff;
+}
+
