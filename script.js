@@ -236,6 +236,33 @@ textColorInput.addEventListener("input", () => {
 
 
 
+if (activeTool === "shape") {
+  const rect = canvas.getBoundingClientRect();
+  const startX = e.clientX - rect.left;
+  const startY = e.clientY - rect.top;
+
+  selectedObject = {
+    type: "shape",
+    shapeType: "rectangle", // default
+    x: startX,
+    y: startY,
+    width: 0,
+    height: 0,
+    color: "#000",
+    lineWidth: 2,
+    fill: false,
+    locked: false
+  };
+
+  objects.push(selectedObject);
+  saveState();
+
+  return; // shape çizim başlatıldı, diğer işlemler çalışmasın
+}
+
+
+
+
 
 let activeTool = "draw";
 
