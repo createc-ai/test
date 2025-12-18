@@ -304,6 +304,22 @@ shapeColorInput.addEventListener("input", () => {
   }
 });
 
+const shapeLineWidthInput = document.getElementById("shapeLineWidth");
+const shapeFillInput = document.getElementById("shapeFill");
+
+shapeLineWidthInput.addEventListener("input", () => {
+  if (selectedObject && selectedObject.type === "shape") {
+    selectedObject.lineWidth = shapeLineWidthInput.value;
+    redrawCanvas();
+  }
+});
+
+shapeFillInput.addEventListener("change", () => {
+  if (selectedObject && selectedObject.type === "shape") {
+    selectedObject.fill = shapeFillInput.checked;
+    redrawCanvas();
+  }
+});
 
 
 
