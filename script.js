@@ -286,6 +286,22 @@ textColorInput.addEventListener("input", () => {
   redrawCanvas();
 });
 
+const shapeTypeSelect = document.getElementById("shapeType");
+
+shapeTypeSelect.addEventListener("change", () => {
+  if (selectedObject && selectedObject.type === "shape") {
+    selectedObject.shapeType = shapeTypeSelect.value;
+    redrawCanvas();
+  }
+});
+
+
+
+
+
+
+
+
 // Undo / Redo / Delete
 document.addEventListener("keydown", (e) => {
   if (e.ctrlKey && e.key === "z") {
