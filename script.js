@@ -295,6 +295,14 @@ shapeTypeSelect.addEventListener("change", () => {
   }
 });
 
+const shapeColorInput = document.getElementById("shapeColor");
+
+shapeColorInput.addEventListener("input", () => {
+  if (selectedObject && selectedObject.type === "shape") {
+    selectedObject.color = shapeColorInput.value;
+    redrawCanvas();
+  }
+});
 
 
 
