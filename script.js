@@ -126,6 +126,11 @@ function createImageObject(img, x, y) {
     grayscale: false
   };
 }
+function generateDemoAIImage(prompt) {
+  const img = new Image();
+  img.src = "https://picsum.photos/400?random=" + Date.now();
+  return img;
+}
 
 
 
