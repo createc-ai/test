@@ -8,26 +8,6 @@ const objects = [];
 function redrawCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  if (obj.type === "image") {
-  ctx.save();
-
-  if (obj.grayscale) {
-    ctx.filter = "grayscale(100%)";
-  } else {
-    ctx.filter = `brightness(${obj.brightness})`;
-  }
-
-  ctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height);
-  ctx.restore();
-}
-
-  
-  
-  
-  
-  
-  
-  
   // arka plan
   ctx.fillStyle = "#f2f2f2";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -46,6 +26,18 @@ function redrawCanvas() {
         ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
       } else {
         ctx.strokeRect(obj.x, obj.y, obj.width, obj.height);
+      }
+    if (obj.type === "image") {
+      ctx.save();
+
+      if (obj.grayscale) {
+      ctx.filter = "grayscale(100%)";
+      } else {
+      ctx.filter = `brightness(${obj.brightness})`;
+      }
+
+      ctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height);
+      ctx.restore();
       }
     }
   });
