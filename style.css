@@ -188,6 +188,13 @@ body {
   display: block;
 }
 
+.editor-tools button.active {
+  background: #5f9cff;
+  box-shadow: 0 0 0 2px #000 inset;
+}
+
+
+
 .editor-canvas {
   background: #fff;
   border-radius: 18px;
