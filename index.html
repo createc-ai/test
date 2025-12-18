@@ -10,6 +10,7 @@
 </head>
 <body>
 
+<!-- NAVBAR -->
 <header class="navbar">
   <div class="nav-left">
     <img src="Favicon.png" class="favicon" />
@@ -27,6 +28,7 @@
   </div>
 </header>
 
+<!-- HERO -->
 <section class="hero">
   <div class="hero-content">
     <span class="hero-badge">AI POWERED DESIGN</span>
@@ -43,6 +45,7 @@
   </div>
 </section>
 
+<!-- EDITOR -->
 <section class="editor">
   <h2>Create in real time</h2>
   <p class="editor-sub">Powerful tools combined with a simple interface.</p>
@@ -57,7 +60,12 @@
       <button data-tool="ai">AI Generate</button>
 
       <button id="toggleGrid">Grid</button>
-      <button id="clearCanvasBtn" class="btn ghost">Clear Canvas</button>
+
+      <label>Canvas Preset</label>
+      <select id="canvasPreset">
+        <option value="900x500">900x500</option>
+        <option value="1080x1080">1080x1080</option>
+      </select>
 
       <label>Export Scale</label>
       <select id="exportScale">
@@ -65,8 +73,20 @@
         <option value="2">2x</option>
       </select>
 
+      <label>Export Preset</label>
+      <select id="exportPreset">
+        <option value="default">Default</option>
+        <option value="instagram">Instagram</option>
+        <option value="story">Story</option>
+      </select>
+
       <button id="exportPNG" class="btn primary">Export PNG</button>
       <button id="exportJPG" class="btn ghost">Export JPG</button>
+
+      <button id="clearCanvasBtn" class="btn ghost">Clear Canvas</button>
+
+      <button id="saveProject">Save</button>
+      <button id="loadProject">Load</button>
 
       <div id="editorHint" class="editor-hint">
         👋 Başlamak için <b>Text</b> butonuna tıkla
@@ -82,6 +102,7 @@
 
     <!-- SETTINGS -->
     <div class="editor-settings">
+
       <label>Font</label>
       <select id="fontSelect">
         <option value="Inter">Inter</option>
@@ -106,6 +127,8 @@
       <input type="text" id="aiPrompt" placeholder="Describe the image...">
       <button id="aiGenerateBtn" class="btn primary">Generate</button>
 
+      <hr>
+
       <label>Shape Type</label>
       <select id="shapeType">
         <option value="rectangle">Rectangle</option>
@@ -115,11 +138,25 @@
 
       <label>Shape Color</label>
       <input type="color" id="shapeColor" value="#000000">
+
+      <hr>
+
+      <label>Layer Controls</label>
+      <button id="bringFront">Bring Front</button>
+      <button id="sendBack">Send Back</button>
+
+      <label>Alignment</label>
+      <button id="alignCenter">Center</button>
+
+      <label>History</label>
+      <div id="historyPanel"></div>
+
     </div>
 
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer class="footer">
   <p>© Createc AI — Design smarter.</p>
 </footer>
@@ -127,37 +164,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
-
-  <!-- Grid toggle -->
-<button id="toggleGrid">Grid</button>
-
-<!-- Export preset -->
-<select id="exportPreset">
-  <option value="default">Default</option>
-  <option value="instagram">Instagram</option>
-  <option value="story">Story</option>
-</select>
-
-<!-- Save / Load -->
-<button id="saveProject">Save</button>
-<button id="loadProject">Load</button>
-
-<!-- Canvas preset -->
-<select id="canvasPreset">
-  <option value="900x500">900x500</option>
-  <option value="1080x1080">1080x1080</option>
-</select>
-
-<!-- Layer controls -->
-<button id="bringFront">Bring Front</button>
-<button id="sendBack">Send Back</button>
-
-<!-- Alignment -->
-<button id="alignCenter">Center</button>
-
-<!-- History panel -->
-<div id="historyPanel"></div>
