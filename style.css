@@ -213,6 +213,10 @@ body {
   padding: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
+.editor-settings button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 .editor-settings label {
   display: block;
@@ -471,4 +475,8 @@ body {
 
 .editor-canvas {
   overflow-x: auto;
+}
+
+.editor-settings button {
+  font-size: 14px;
 }
