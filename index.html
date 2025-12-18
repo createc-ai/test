@@ -72,6 +72,7 @@
   <button data-tool="shape">Shape</button>
   <button data-tool="image">Image</button>
   <button data-tool="ai">AI Generate</button>
+
 </div>
 
 
@@ -114,12 +115,20 @@
       <input type="color" id="textColor" />
       <label>Image Brightness</label>
       <input type="range" id="imageBrightness" min="0.5" max="2" step="0.1" value="1">
-
+    
       <label>
         <input type="checkbox" id="imageGrayscale">
         Grayscale
       </label>
 
+      <label>AI Prompt</label>
+      <input type="text" id="aiPrompt" placeholder="Describe the image...">
+
+      <button id="aiGenerateBtn" class="btn primary" style="width:100%">
+        Generate
+      </button>
+
+          
           
       <label>Shape Type</label>
       <select id="shapeType">
