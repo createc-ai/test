@@ -101,6 +101,24 @@ function createTextObject(text, x, y) {
   };
 }
 
+function createImageObject(img, x, y) {
+  return {
+    type: "image",
+    img,
+    x,
+    y,
+    width: img.width * 0.5,
+    height: img.height * 0.5,
+    locked: false,
+    brightness: 1,
+    grayscale: false
+  };
+}
+
+
+
+
+
 // 4️⃣-1 Shape object model
 function createShapeObject(type, x, y, width, height, color, lineWidth, fill) {
   return {
