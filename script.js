@@ -78,8 +78,10 @@ function setActiveTool(tool) {
   toolButtons.forEach(btn => btn.classList.remove("active"));
   const activeBtn = document.querySelector(`[data-tool='${tool}']`);
   if (activeBtn) activeBtn.classList.add("active");
-}
+  selectedObject = null;
 
+}
+  
 function resetToolState() {
   isDrawing = false;
 }
