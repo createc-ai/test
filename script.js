@@ -299,6 +299,16 @@ imageToolBtn.addEventListener("click", () => {
   imageUploadInput.click();
 });
 
+  const aiToolBtn = document.querySelector("[data-tool='ai']");
+  const aiPromptInput = document.getElementById("aiPrompt");
+  const aiGenerateBtn = document.getElementById("aiGenerateBtn");
+
+  aiToolBtn.addEventListener("click", () => {
+    setActiveTool("ai");
+});
+
+
+
 imageUploadInput.addEventListener("change", (e) => {
   const file = e.target.files[0];
   if (!file) return;
