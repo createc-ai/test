@@ -326,6 +326,16 @@ aiGenerateBtn.addEventListener("click", () => {
   };
 });
 
+const clearCanvasBtn = document.getElementById("clearCanvasBtn");
+
+clearCanvasBtn.addEventListener("click", () => {
+  if (!objects.length) return;
+  saveState();
+  objects.length = 0;
+  selectedObject = null;
+  redrawCanvas();
+  saveToLocal();
+});
 
 
 
