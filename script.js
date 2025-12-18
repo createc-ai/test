@@ -312,6 +312,23 @@ imageToolBtn.addEventListener("click", () => {
     setActiveTool("ai");
 });
 
+aiGenerateBtn.addEventListener("click", () => {
+  if (!aiPromptInput.value) return;
+
+  const img = generateDemoAIImage(aiPromptInput.value);
+
+  img.onload = () => {
+    saveState();
+    const imageObj = createImageObject(img, 150, 150);
+    objects.push(imageObj);
+    redrawCanvas();
+    saveToLocal();
+  };
+});
+
+
+
+
 
 
 imageUploadInput.addEventListener("change", (e) => {
