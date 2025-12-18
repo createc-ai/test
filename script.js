@@ -48,6 +48,8 @@ const redoStack = [];
 
 
 function exportCanvas(type) {
+  if (!objects.length) return;
+
   const scale = Number(document.getElementById("exportScale").value);
 
   const tempCanvas = document.createElement("canvas");
