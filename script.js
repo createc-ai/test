@@ -288,7 +288,35 @@ imageToolBtn.addEventListener("click", () => {
   imageUploadInput.click();
 });
 
+imageUploadInput.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
+  const img = new Image();
+  img.onload = () => {
+    saveState();
+    const imageObj = createImageObject(img, 100, 100);
+    objects.push(imageObj);
+    redrawCanvas();
+    saveToLocal();
+  };
+
+  img.src = URL.createObjectURL(file);
+});
+
+if (obj.type === "image") {
+  if (
+    x >= obj.x &&
+    x <= obj.x + obj.width &&
+    y >= obj.y &&
+    y <= obj.y + obj.height
+  ) {
+    selectedObject = obj;
+    dragOffsetX = x - obj.x;
+    dragOffsetY = y - obj.y;
+    break;
+  }
+}
 
 
   // Text ekleme
