@@ -225,6 +225,17 @@ canvas.addEventListener("mousemove", (e) => {
       selectedObject.x = x - dragOffsetX;
       selectedObject.y = y - dragOffsetY;
     }
+
+    if (selectedObject.type === "image") {
+      selectedObject.x = e.clientX - rect.left - dragOffsetX;
+      selectedObject.y = e.clientY - rect.top - dragOffsetY;
+      redrawCanvas();
+      return;
+    }
+
+    
+    
+    
     if (selectedObject.type === "shape") {
       selectedObject.width = x - selectedObject.x;
       selectedObject.height = y - selectedObject.y;
