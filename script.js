@@ -46,6 +46,42 @@ function redrawCanvas() {
 const undoStack = [];
 const redoStack = [];
 
+
+function exportCanvas(type) {
+  const scale = Number(document.getElementById("exportScale").value);
+
+  const tempCanvas = document.createElement("canvas");
+  tempCanvas.width = canvas.width * scale;
+  tempCanvas.height = canvas.height * scale;
+
+  const tctx = tempCanvas.getContext("2d");
+  tctx.scale(scale, scale);
+
+  // background
+  tctx.fillStyle = "#f2f2f2";
+  tctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  objects.forEach(obj => {
+    if (obj.type === "text") {
+      tctx.fillStyle = obj.color;
+      tctx.font = `${obj.size}px ${obj.font}`;
+      tctx.fillText(obj.text, obj.x, obj.y);
+    }
+
+    if (obj.type === "image") {
+      tctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height);
+    }
+  });
+
+  const link = document.createElement("a");
+  link.download = `createc-export.${type}`;
+  link.href = tempCanvas.toDataURL(`image/${type}`);
+  link.click();
+}
+
+
+
+
 function saveState() {
   undoStack.push(JSON.stringify(objects));
   redoStack.length = 0;
