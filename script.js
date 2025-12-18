@@ -79,6 +79,20 @@ function exportCanvas(type) {
   link.click();
 }
 
+document.getElementById("exportPNG").addEventListener("click", () => {
+  exportCanvas("png");
+});
+
+document.getElementById("exportJPG").addEventListener("click", () => {
+  exportCanvas("jpeg");
+});
+
+
+
+
+
+
+
 
 
 
