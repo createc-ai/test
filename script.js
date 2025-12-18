@@ -92,10 +92,16 @@ function exportCanvas(type) {
     }
   });
 
-  const link = document.createElement("a");
-  link.download = `createc-export.${type}`;
-  link.href = tempCanvas.toDataURL(`image/${type}`);
-  link.click();
+  if (objects.length === 0) {
+  alert("Canvas boş. Önce bir tasarım ekle.");
+  return;
+}
+
+const link = document.createElement("a");
+link.download = `createc-export.${type}`;
+link.href = tempCanvas.toDataURL(`image/${type}`);
+link.click();
+
 }
 
 document.getElementById("exportPNG").addEventListener("click", () => {
