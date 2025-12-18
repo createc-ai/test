@@ -7,7 +7,30 @@ const objects = [];
 
 function redrawCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+// 9️⃣-4 Grid draw
+if (showGrid) {
+  const gridSize = 25;
+  ctx.strokeStyle = "#e0e0e0";
+  ctx.lineWidth = 1;
 
+  for (let x = 0; x < canvas.width; x += gridSize) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvas.height);
+    ctx.stroke();
+  }
+
+  for (let y = 0; y < canvas.height; y += gridSize) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+  }
+}
+
+
+
+  
   // arka plan
   ctx.fillStyle = "#f2f2f2";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
