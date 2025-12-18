@@ -86,6 +86,8 @@ if (showGrid) {
 const undoStack = [];
 const redoStack = [];
 
+let showGrid = false;
+
 
 function exportCanvas(type) {
   if (!objects.length) return;
