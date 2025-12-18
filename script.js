@@ -174,6 +174,11 @@ canvas.addEventListener("mousedown", (e) => {
 // Mouseup listener
 canvas.addEventListener("mouseup", () => {
   isDrawing = false;
+  // 4️⃣-5 Shape çizimi bitir
+if (activeTool === "shape") {
+  selectedObject = null;
+}
+
   selectedObject = null;
   ctx.beginPath();
 });
@@ -196,7 +201,26 @@ canvas.addEventListener("mousemove", (e) => {
     }
     redrawCanvas();
     return;
-  }
+  
+  // 4️⃣-4 Shape çizim güncelleme
+if (
+  activeTool === "shape" &&
+  isDrawing &&
+  selectedObject &&
+  selectedObject.type === "shape"
+) {
+  const rect = canvas.getBoundingClientRect();
+  selectedObject.width = (e.clientX - rect.left) - selectedObject.x;
+  selectedObject.height = (e.clientY - rect.top) - selectedObject.y;
+  redrawCanvas();
+  return;
+}
+
+  
+  
+  
+  
+  
 
   // Free draw
   if (!isDrawing) return;
