@@ -274,6 +274,7 @@ if (activeTool === "shape") {
 
 // Mousemove listener
 canvas.addEventListener("mousemove", (e) => {
+if (activeTool === "shape" && !selectedObject) return;
   const rect = canvas.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
@@ -530,3 +531,4 @@ document.addEventListener("keydown", (e) => {
     }
   }
 });
+redrawCanvas();
