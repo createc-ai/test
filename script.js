@@ -121,6 +121,17 @@ window.addEventListener("load", () => {
   }
 });
 
+setTimeout(() => {
+  const hint = document.getElementById("editorHint");
+  if (hint) hint.style.display = "none";
+}, 4000);
+
+
+
+
+
+
+
 // 2️⃣-1 Active tool state
 let activeTool = "draw";
 const toolButtons = document.querySelectorAll(".editor-tools button");
