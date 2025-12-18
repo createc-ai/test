@@ -322,3 +322,33 @@ body {
     padding: 100px 20px;
   }
 }
+
+
+
+
+
+
+.grid-line {
+  stroke: #e0e0e0;
+  stroke-width: 1;
+}
+
+.selected-outline {
+  outline: 2px dashed #5f9cff;
+}
+
+#historyPanel {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.editor-canvas canvas {
+  cursor: crosshair;
+}
+
+@media (max-width: 768px) {
+  .editor-tools {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+}
