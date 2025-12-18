@@ -10,6 +10,7 @@
 </head>
 <body>
 
+<!-- NAVBAR -->
 <header class="navbar">
   <div class="nav-left">
     <img src="Favicon.png" class="favicon" />
@@ -27,11 +28,12 @@
   </div>
 </header>
 
+<!-- HERO -->
 <section class="hero">
   <div class="hero-content">
     <span class="hero-badge">AI POWERED DESIGN</span>
     <h1>Design.<br>Create.<br>Scale.</h1>
-    <p>Professional design platform inspired by the best. Create logos, posters and brand assets in minutes.</p>
+    <p>Professional design platform inspired by the best.</p>
     <div class="hero-actions">
       <button class="btn primary big">Start Designing</button>
       <button class="btn ghost big">Explore Templates</button>
@@ -43,11 +45,14 @@
   </div>
 </section>
 
+<!-- EDITOR -->
 <section class="editor">
   <h2>Create in real time</h2>
   <p class="editor-sub">Powerful tools combined with a simple interface.</p>
 
   <div class="editor-layout">
+
+    <!-- TOOLS -->
     <div class="editor-tools">
       <button id="toolText" data-tool="text">Text</button>
       <button data-tool="shape">Shape</button>
@@ -65,28 +70,19 @@
       <button id="exportPNG" class="btn primary">Export PNG</button>
       <button id="exportJPG" class="btn ghost">Export JPG</button>
 
-      <label>Canvas Preset</label>
-      <select id="canvasPreset">
-        <option value="900x500">900x500</option>
-        <option value="1080x1080">1080x1080</option>
-      </select>
-
-      <button id="saveProject">Save</button>
-      <button id="loadProject">Load</button>
-
-      <button id="bringFront">Bring Front</button>
-      <button id="sendBack">Send Back</button>
-      <button id="alignCenter">Center</button>
-
       <div id="editorHint" class="editor-hint">
         👋 Başlamak için <b>Text</b> butonuna tıkla
       </div>
     </div>
 
+    <!-- CANVAS -->
     <div class="editor-canvas">
       <canvas id="designCanvas" width="900" height="500"></canvas>
     </div>
 
+    <input type="file" id="imageUpload" accept="image/*" hidden />
+
+    <!-- SETTINGS -->
     <div class="editor-settings">
       <label>Font</label>
       <select id="fontSelect">
@@ -104,7 +100,9 @@
       <label>Image Brightness</label>
       <input type="range" id="imageBrightness" min="0.5" max="2" step="0.1" value="1">
 
-      <label><input type="checkbox" id="imageGrayscale"> Grayscale</label>
+      <label>
+        <input type="checkbox" id="imageGrayscale"> Grayscale
+      </label>
 
       <label>AI Prompt</label>
       <input type="text" id="aiPrompt" placeholder="Describe the image...">
@@ -120,12 +118,15 @@
       <label>Shape Color</label>
       <input type="color" id="shapeColor" value="#000000">
     </div>
+
   </div>
 </section>
 
+<!-- PRICING -->
 <section class="pricing">
   <h2>Choose your plan</h2>
   <p class="pricing-sub">Simple pricing. No hidden fees.</p>
+
   <div class="pricing-grid">
     <div class="price-card">
       <h3>Free</h3>
@@ -137,6 +138,7 @@
       </ul>
       <button class="btn ghost">Get Started</button>
     </div>
+
     <div class="price-card featured">
       <h3>Pro</h3>
       <p class="price">$19<span>/mo</span></p>
@@ -147,6 +149,7 @@
       </ul>
       <button class="btn primary">Start Pro</button>
     </div>
+
     <div class="price-card">
       <h3>Team</h3>
       <p class="price">$49<span>/mo</span></p>
@@ -160,20 +163,65 @@
   </div>
 </section>
 
+<!-- NEW BLOCKS BELOW PRICING -->
+<section class="extras">
+  <h2>Canvas & Layer Controls</h2>
+
+  <div class="extras-grid">
+
+    <!-- Canvas Preset -->
+    <div class="extra-block">
+      <label>Canvas Preset</label>
+      <select id="canvasPreset">
+        <option value="900x500">900x500</option>
+        <option value="1080x1080">1080x1080</option>
+      </select>
+    </div>
+
+    <!-- Export Preset -->
+    <div class="extra-block">
+      <label>Export Preset</label>
+      <select id="exportPreset">
+        <option value="default">Default</option>
+        <option value="instagram">Instagram</option>
+        <option value="story">Story</option>
+      </select>
+    </div>
+
+    <!-- Layer Controls -->
+    <div class="extra-block">
+      <button id="bringFront">Bring Front</button>
+      <button id="sendBack">Send Back</button>
+      <button id="alignCenter">Center</button>
+    </div>
+
+    <!-- History Panel -->
+    <div class="extra-block">
+      <label>History Panel</label>
+      <div id="historyPanel"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BLOG -->
 <section class="blog">
   <h2>Learn & get inspired</h2>
   <p class="blog-sub">Tips, trends and updates from our design team.</p>
+
   <div class="blog-grid">
     <article class="blog-card">
       <div class="blog-thumb"></div>
       <h3>Design trends for 2025</h3>
       <p>Discover what’s shaping modern digital design.</p>
     </article>
+
     <article class="blog-card">
       <div class="blog-thumb"></div>
       <h3>AI in creative workflows</h3>
       <p>How AI speeds up professional design.</p>
     </article>
+
     <article class="blog-card">
       <div class="blog-thumb"></div>
       <h3>Brand consistency made easy</h3>
@@ -182,16 +230,9 @@
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer class="footer">
-  <div class="footer-left">
-    <strong>Createc AI</strong>
-    <p>Design smarter. Faster.</p>
-  </div>
-  <div class="footer-links">
-    <a href="#">Privacy</a>
-    <a href="#">Terms</a>
-    <a href="#">Contact</a>
-  </div>
+  <p>© Createc AI — Design smarter.</p>
 </footer>
 
 <script src="script.js"></script>
