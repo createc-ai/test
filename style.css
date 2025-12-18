@@ -461,3 +461,10 @@ body {
   background: #7b5cff;
 }
 
+.editor-canvas canvas {
+  cursor: crosshair;
+}
+
+.editor-canvas canvas:active {
+  cursor: grabbing;
+}
