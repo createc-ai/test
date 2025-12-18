@@ -468,3 +468,7 @@ body {
 .editor-canvas canvas:active {
   cursor: grabbing;
 }
+
+.editor-canvas {
+  overflow-x: auto;
+}
