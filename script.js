@@ -280,7 +280,18 @@ textTool.addEventListener("click", () => {
   activeTool = "text";
 });
 
-// Text ekleme
+const imageToolBtn = document.querySelector("[data-tool='image']");
+const imageUploadInput = document.getElementById("imageUpload");
+
+imageToolBtn.addEventListener("click", () => {
+  setActiveTool("image");
+  imageUploadInput.click();
+});
+
+
+
+
+  // Text ekleme
 canvas.addEventListener("click", (e) => {
   if (activeTool !== "text") return;
   const text = prompt("Yazıyı gir:");
