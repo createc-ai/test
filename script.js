@@ -260,3 +260,48 @@ document.addEventListener("keydown", (e) => {
 });
 
 redrawCanvas();
+
+
+
+
+
+// Global
+let showGrid = false;
+
+// Grid toggle
+document.getElementById("toggleGrid").addEventListener("click", () => {
+  showGrid = !showGrid;
+  redrawCanvas();
+});
+
+// Snap helper
+function snap(value, gridSize = 25) {
+  return Math.round(value / gridSize) * gridSize;
+}
+
+// Save / Load
+document.getElementById("saveProject").onclick = () => {
+  localStorage.setItem("project", JSON.stringify(objects));
+};
+
+document.getElementById("loadProject").onclick = () => {
+  objects = JSON.parse(localStorage.getItem("project")) || [];
+  redrawCanvas();
+};
+
+// Layer control
+document.getElementById("bringFront").onclick = () => {
+  objects.push(objects.splice(objects.indexOf(selectedObject), 1)[0]);
+  redrawCanvas();
+};
+
+// Alignment
+document.getElementById("alignCenter").onclick = () => {
+  selectedObject.x = canvas.width / 2;
+  redrawCanvas();
+};
+
+// Autosave
+setInterval(() => {
+  localStorage.setItem("autosave", JSON.stringify(objects));
+}, 5000);
