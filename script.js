@@ -22,7 +22,7 @@ function redrawCanvas() {
   ctx.fillStyle = "#f2f2f2";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // GRID (arka plan üstü – objelerin altı)
+  // GRID
   if (showGrid) {
     const gridSize = 25;
     ctx.strokeStyle = "#e0e0e0";
@@ -63,7 +63,9 @@ function redrawCanvas() {
 
     if (obj.type === "image") {
       ctx.save();
-      ctx.filter = obj.grayscale ? "grayscale(100%)" : `brightness(${obj.brightness})`;
+      ctx.filter = obj.grayscale
+        ? "grayscale(100%)"
+        : `brightness(${obj.brightness})`;
       ctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height);
       ctx.restore();
     }
@@ -137,7 +139,6 @@ canvas.addEventListener("mousedown", (e) => {
   dragOffsetX = 0;
   dragOffsetY = 0;
 
-  // HIT TEST (üstten alta)
   for (let i = objects.length - 1; i >= 0; i--) {
     const obj = objects[i];
 
@@ -162,7 +163,6 @@ canvas.addEventListener("mousedown", (e) => {
     }
   }
 
-  // SHAPE START
   if (activeTool === "shape") {
     selectedObject = createShapeObject(x, y);
     objects.push(selectedObject);
@@ -171,7 +171,6 @@ canvas.addEventListener("mousedown", (e) => {
     return;
   }
 
-  // FREE DRAW
   if (activeTool === "draw") {
     isDrawing = true;
   }
@@ -259,14 +258,7 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-redrawCanvas();
-
-
-
-
-
-// Global
-let showGrid = false;
+/* ================= EXTRA FEATURES ================= */
 
 // Grid toggle
 document.getElementById("toggleGrid").addEventListener("click", () => {
@@ -274,30 +266,33 @@ document.getElementById("toggleGrid").addEventListener("click", () => {
   redrawCanvas();
 });
 
-// Snap helper
-function snap(value, gridSize = 25) {
-  return Math.round(value / gridSize) * gridSize;
-}
-
-// Save / Load
+// Save
 document.getElementById("saveProject").onclick = () => {
   localStorage.setItem("project", JSON.stringify(objects));
 };
 
+// Load (CONST SAFE)
 document.getElementById("loadProject").onclick = () => {
-  objects = JSON.parse(localStorage.getItem("project")) || [];
+  const data = JSON.parse(localStorage.getItem("project")) || [];
+  objects.length = 0;
+  objects.push(...data);
   redrawCanvas();
 };
 
-// Layer control
+// Bring front
 document.getElementById("bringFront").onclick = () => {
-  objects.push(objects.splice(objects.indexOf(selectedObject), 1)[0]);
+  if (!selectedObject) return;
+  const index = objects.indexOf(selectedObject);
+  if (index === -1) return;
+  objects.push(objects.splice(index, 1)[0]);
   redrawCanvas();
 };
 
-// Alignment
+// Align center
 document.getElementById("alignCenter").onclick = () => {
+  if (!selectedObject) return;
   selectedObject.x = canvas.width / 2;
+  selectedObject.y = canvas.height / 2;
   redrawCanvas();
 };
 
@@ -305,3 +300,5 @@ document.getElementById("alignCenter").onclick = () => {
 setInterval(() => {
   localStorage.setItem("autosave", JSON.stringify(objects));
 }, 5000);
+
+redrawCanvas();
