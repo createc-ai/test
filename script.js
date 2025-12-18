@@ -18,6 +18,23 @@ function redrawCanvas() {
       ctx.font = `${obj.size}px ${obj.font}`;
       ctx.fillText(obj.text, obj.x, obj.y);
     }
+
+
+  if (objects.length === 0) {
+  ctx.fillStyle = "#aaa";
+  ctx.font = "20px Inter";
+  ctx.textAlign = "center";
+  ctx.fillText(
+    "Start creating ✨",
+    canvas.width / 2,
+    canvas.height / 2
+  );
+  ctx.textAlign = "left"; // reset
+}
+  
+    
+    
+    
     if (obj.type === "shape") {
       ctx.strokeStyle = obj.color;
       ctx.lineWidth = obj.lineWidth;
